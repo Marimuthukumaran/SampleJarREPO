@@ -21,6 +21,11 @@
     </properties>
 
     <dependencies>
+         <dependency>
+           <groupId>com.ep.cucumber</groupId>
+           <artifactId>cucumber-mainsuite</artifactId>
+           <version>1.0.1-SNAPSHOT</version>
+         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
@@ -45,5 +50,16 @@
             </plugin>
         </plugins>
     </build>
-
+            <repositories>
+		<repository>
+		  <id>feed1</id>
+		  <url>https://pkgs.dev.azure.com/yesmmkumaran/_packaging/feed1/maven/v1</url>
+		  <releases>
+		    <enabled>true</enabled>
+		  </releases>
+		  <snapshots>
+		    <enabled>true</enabled>
+		  </snapshots>
+		</repository>
+	  </repositories>	
 </project>
