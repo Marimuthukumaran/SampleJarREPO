@@ -22,9 +22,9 @@
 
     <dependencies>
          <dependency>
-	  <groupId>com.ep.cucumber</groupId>
-	  <artifactId>cucumber-mainsuite</artifactId>
-	  <version>1.0.4-SNAPSHOT</version>
+	  <groupId>com.dufry.core</groupId>
+	  <artifactId>core-framework-suite</artifactId>
+	  <version>1.0.1-SNAPSHOT</version>
 	</dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
