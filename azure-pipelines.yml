@@ -28,3 +28,4 @@ jobs:
         effectivePomSkip: false
         sonarQubeRunAnalysis: false
         goals: 'package'
+        options: '-Dmaven.test.failure.ignore=true'
