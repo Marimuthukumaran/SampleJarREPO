@@ -51,15 +51,15 @@
         </plugins>
     </build>
             <repositories>
-		<repository>
-		  <id>feed1</id>
-		  <url>https://pkgs.dev.azure.com/yesmmkumaran/_packaging/feed1/maven/v1</url>
-		  <releases>
-		    <enabled>true</enabled>
-		  </releases>
-		  <snapshots>
-		    <enabled>true</enabled>
-		  </snapshots>
-		</repository>
+		    <repository>
+			  <id>feed1</id>
+			  <url>https://pkgs.dev.azure.com/yesmmkumaran/_packaging/feed1/maven/v1</url>
+			  <releases>
+			    <enabled>true</enabled>
+			  </releases>
+			  <snapshots>
+			    <enabled>true</enabled>
+			  </snapshots>
+			</repository>
 	  </repositories>	
 </project>
