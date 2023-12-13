@@ -19,7 +19,7 @@ jobs:
     - task: Maven@4
       inputs:
         mavenPomFile: 'pom.xml'
-        publishJUnitResults: true
+        publishJUnitResults: false
         testResultsFiles: '**/surefire-reports/TEST-*.xml'
         javaHomeOption: 'JDKVersion'
         jdkVersionOption: '1.17'
@@ -28,4 +28,3 @@ jobs:
         effectivePomSkip: false
         sonarQubeRunAnalysis: false
         goals: 'package'
-        options: '-Dmaven.test.failure.ignore=true'
