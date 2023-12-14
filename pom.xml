@@ -21,11 +21,6 @@
     </properties>
 
     <dependencies>
-         <dependency>
-	  <groupId>com.dufry.core</groupId>
-	  <artifactId>core-framework-suite</artifactId>
-	  <version>1.0.1-SNAPSHOT</version>
-	</dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
@@ -34,14 +29,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>
-
     <build>
         <plugins>
             <plugin>
@@ -49,17 +42,5 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
         </plugins>
-    </build>
-            <repositories>
-		    <repository>
-			  <id>feed1</id>
-			  <url>https://pkgs.dev.azure.com/yesmmkumaran/_packaging/feed1/maven/v1</url>
-			  <releases>
-			    <enabled>true</enabled>
-			  </releases>
-			  <snapshots>
-			    <enabled>true</enabled>
-			  </snapshots>
-			</repository>
-	  </repositories>	
+    </build>	
 </project>
