@@ -32,14 +32,20 @@ jobs:
     #     userRepository: 'Marimuthukumaran/SampleJarREPO'
     #     defaultVersionType: 'latest'
     #     downloadPath: '$(System.ArtifactsDirectory)'
+    # - task: DownloadGitHubRelease@0
+    #   inputs:
+    #     connection: newGitServiceConnection
+    #     userRepository: Marimuthukumaran/SampleJarREPO
+    #     defaultVersionType: 'latest'
+    #     downloadPath: '$(System.ArtifactsDirectory)'
+    #     itemPattern: '*Linux*'
     - task: DownloadGitHubRelease@0
       inputs:
-        connection: newGitServiceConnection
-        userRepository: Marimuthukumaran/SampleJarREPO
-        defaultVersionType: 'latest'
+        connection: 'newGitServiceConnection'
+        userRepository: 'Marimuthukumaran/SampleJarREPO'
+        defaultVersionType: 'specificTag'
+        version: '135257395'
         downloadPath: '$(System.ArtifactsDirectory)'
-        itemPattern: '*Linux*'
-
     - task: ExtractFiles@1
       inputs:
         archiveFilePatterns: '$(System.ArtifactsDirectory)/*.zip'
