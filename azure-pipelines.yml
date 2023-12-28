@@ -20,9 +20,10 @@ jobs:
       inputs:
         connection: 'newGitServiceConnection'
         userRepository: 'Marimuthukumaran/SampleJarREPO'
-        defaultVersionType: 'latest'
+        version: '101'  # Specify the release version
         itemPattern: '*.zip'  # Adjust this pattern based on the files you want
         downloadPath: '$(System.ArtifactsDirectory)'
+
 
     # - task: ExtractFiles@1
     #   inputs:
