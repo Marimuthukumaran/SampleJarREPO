@@ -18,18 +18,11 @@ jobs:
   steps:
     - task: DownloadGitHubRelease@0
       inputs:
-        connection: 'Marimuthukumaran'
+        connection: 'newGitServiceConnection'
         userRepository: 'Marimuthukumaran/SampleJarREPO'
-        defaultVersionType: 'specificTag'
-        version: '135238802'
-        itemPattern: '*.zip'
+        defaultVersionType: 'latest'
+        itemPattern: '**/*.zip'
         downloadPath: '$(System.ArtifactsDirectory)'
-    # - task: DownloadGitHubRelease@0
-    #   inputs:
-    #     connection: 'Marimuthukumaran'
-    #     userRepository: 'Marimuthukumaran/SampleJarREPO'
-    #     defaultVersionType: 'latest'
-    #     downloadPath: '$(System.ArtifactsDirectory)'
     - task: ExtractFiles@1
       inputs:
         archiveFilePatterns: '$(System.ArtifactsDirectory)/*.zip'
