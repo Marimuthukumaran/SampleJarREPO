@@ -19,34 +19,26 @@ jobs:
   pool:
     vmImage: 'ubuntu-latest'
   steps:
-    # - task: PowerShell@2
+    # - task: CmdLine@2
     #   inputs:
-    #     targetType: 'inline'
     #     script: |
     #       curl -L \
-    #         -H "Accept: Marimuthukumaran/SampleJarREPO" \
-    #         -H "Authorization: Bearer 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" \
-    #         https://api.github.com/repos/Marimuthukumaran/SampleJarREPO/releases/135238802/assets
-    - task: CmdLine@2
+    #       -H "Accept: Marimuthukumaran/SampleJarREPO" \
+    #       -H "Authorization: Bearer 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" \
+    #       https://api.github.com/repos/Marimuthukumaran/SampleJarREPO/releases/135238802/assets
+    - task: DownloadGitHubRelease@0
       inputs:
-        script: |
-          curl -L \
-          -H "Accept: Marimuthukumaran/SampleJarREPO" \
-          -H "Authorization: Bearer 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" \
-          https://api.github.com/repos/Marimuthukumaran/SampleJarREPO/releases/135238802/assets
-    # - task: DownloadGitHubRelease@0
-    #   inputs:
-    #     connection: 'newGitServiceConnection'
-    #     userRepository: 'Marimuthukumaran/SampleJarREPO'
-    #     defaultVersionType: 'latest'
-    #     downloadPath: '$(System.ArtifactsDirectory)'
+        connection: 'newGitServiceConnection'
+        userRepository: 'Marimuthukumaran/SampleJarREPO'
+        defaultVersionType: 'latest'
+        downloadPath: '$(System.ArtifactsDirectory)'
 
-    # - task: ExtractFiles@1
-    #   inputs:
-    #     archiveFilePatterns: '$(System.ArtifactsDirectory)/*.zip'
-    #     destinationFolder: '$(System.ArtifactsDirectory)'
-    #     cleanDestinationFolder: true
-    #     overwriteExistingFiles: false
+    - task: ExtractFiles@1
+      inputs:
+        archiveFilePatterns: '$(System.ArtifactsDirectory)/*.zip'
+        destinationFolder: '$(System.ArtifactsDirectory)'
+        cleanDestinationFolder: true
+        overwriteExistingFiles: false
     # - task: Maven@4
     #   inputs:
     #     mavenPomFile: '$(System.ArtifactsDirectory)/pom.xml'
