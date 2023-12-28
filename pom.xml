@@ -42,5 +42,29 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
         </plugins>
-    </build>	
+    </build>
+    <repositories>
+		<repository>
+		  <id>feed1</id>
+		  <url>https://pkgs.dev.azure.com/yesmmkumaran/_packaging/feed1/maven/v1</url>
+		  <releases>
+		    <enabled>true</enabled>
+		  </releases>
+		  <snapshots>
+		    <enabled>true</enabled>
+		  </snapshots>
+		</repository>
+       </repositories>
+       <distributionManagement>
+                <repository>
+		  <id>feed1</id>
+		  <url>https://pkgs.dev.azure.com/yesmmkumaran/_packaging/feed1/maven/v1</url>
+		  <releases>
+		    <enabled>true</enabled>
+		  </releases>
+		  <snapshots>
+		    <enabled>true</enabled>
+		  </snapshots>
+		</repository>
+        </distributionManagement>
 </project>
