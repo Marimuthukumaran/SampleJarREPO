@@ -16,6 +16,12 @@ jobs:
   pool:
     vmImage: 'ubuntu-latest'
   steps:
+    - task: DownloadGitHubRelease@0
+      inputs:
+        connection: 'Marimuthukumaran'
+        userRepository: 'SampleJarREPO'
+        defaultVersionType: 'specificTag'
+        downloadPath: '$(System.ArtifactsDirectory)'
     - task: Maven@4
       inputs:
         mavenPomFile: 'pom.xml'
