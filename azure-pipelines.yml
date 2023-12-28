@@ -11,14 +11,26 @@ pool:
   vmImage: ubuntu-latest
 
 jobs:
-- job: CheckJarPullFromFeeds
+- job: CheckReleasepushtoFeeds
   # timeoutInMinutes: 10
   pool:
     vmImage: 'ubuntu-latest'
   steps:
+    - task: DownloadGitHubRelease@0
+      inputs:
+        connection: 'Marimuthukumaran'
+        userRepository: 'Marimuthukumaran/SampleJarREPO'
+        defaultVersionType: 'latest'
+        downloadPath: '$(System.ArtifactsDirectory)'
+    - task: ExtractFiles@1
+      inputs:
+        archiveFilePatterns: '$(System.ArtifactsDirectory)/*.zip'
+        destinationFolder: '$(System.ArtifactsDirectory)'
+        cleanDestinationFolder: true
+        overwriteExistingFiles: false
     - task: Maven@4
       inputs:
-        mavenPomFile: 'pom.xml'
+        mavenPomFile: '$(System.ArtifactsDirectory)/pom.xml'
         publishJUnitResults: false
         testResultsFiles: '**/surefire-reports/TEST-*.xml'
         javaHomeOption: 'JDKVersion'
