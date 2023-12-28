@@ -25,12 +25,12 @@ jobs:
         userRepository: 'Marimuthukumaran/SampleJarREPO'
         version: '1000'  # Specify the release version
         itemPattern: '*.zip'  # Adjust this pattern based on the files you want
-        downloadPath: '$(Build.SourcesDirectory)'
+        downloadPath: '$(System.ArtifactsDirectory)'
 
     - task: ExtractFiles@1
       inputs:
-        archiveFilePatterns: '$(Build.SourcesDirectory)/*.zip'
-        destinationFolder: '$(Build.SourcesDirectory)'
+        archiveFilePatterns: '$(System.ArtifactsDirectory)/*.zip'
+        destinationFolder: '$(System.ArtifactsDirectory)'
         cleanDestinationFolder: true
         overwriteExistingFiles: false
     # - task: Maven@4
