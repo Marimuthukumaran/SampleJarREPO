@@ -26,12 +26,19 @@ jobs:
     #       -H "Accept: Marimuthukumaran/SampleJarREPO" \
     #       -H "Authorization: Bearer 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" \
     #       https://api.github.com/repos/Marimuthukumaran/SampleJarREPO/releases/135238802/assets
+    # - task: DownloadGitHubRelease@0
+    #   inputs:
+    #     connection: 'newGitServiceConnection'
+    #     userRepository: 'Marimuthukumaran/SampleJarREPO'
+    #     defaultVersionType: 'latest'
+    #     downloadPath: '$(System.ArtifactsDirectory)'
     - task: DownloadGitHubRelease@0
       inputs:
-        connection: 'newGitServiceConnection'
-        userRepository: 'Marimuthukumaran/SampleJarREPO'
+        connection: newGitServiceConnection
+        userRepository: Marimuthukumaran/SampleJarREPO
         defaultVersionType: 'latest'
         downloadPath: '$(System.ArtifactsDirectory)'
+        itemPattern: '*Linux*'
 
     - task: ExtractFiles@1
       inputs:
