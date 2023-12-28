@@ -21,7 +21,7 @@ jobs:
         connection: 'newGitServiceConnection'
         userRepository: 'Marimuthukumaran/SampleJarREPO'
         defaultVersionType: 'latest'
-        itemPattern: '**/*.zip'
+        itemPattern: '**'
         downloadPath: '$(System.ArtifactsDirectory)'
     - task: ExtractFiles@1
       inputs:
