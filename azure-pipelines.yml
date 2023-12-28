@@ -20,8 +20,7 @@ jobs:
       inputs:
         connection: 'Marimuthukumaran'
         userRepository: 'Marimuthukumaran/SampleJarREPO'
-        defaultVersionType: 'specificTag'
-        version: '135238802'
+        defaultVersionType: 'latest'
         downloadPath: '$(System.ArtifactsDirectory)'
     - task: ExtractFiles@1
       inputs:
