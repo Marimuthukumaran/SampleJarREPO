@@ -22,7 +22,7 @@ jobs:
         userRepository: 'Marimuthukumaran/SampleJarREPO'
         version: '100'  # Specify the release version
         itemPattern: '*.zip'  # Adjust this pattern based on the files you want
-        downloadPath: '$(System.ArtifactsDirectory)'
+        downloadPath: '$(Build.SourcesDirectory)'
 
 
     # - task: ExtractFiles@1
