@@ -19,14 +19,21 @@ jobs:
   pool:
     vmImage: 'ubuntu-latest'
   steps:
-    - task: PowerShell@2
+    # - task: PowerShell@2
+    #   inputs:
+    #     targetType: 'inline'
+    #     script: |
+    #       curl -L \
+    #         -H "Accept: Marimuthukumaran/SampleJarREPO" \
+    #         -H "Authorization: Bearer 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" \
+    #         https://api.github.com/repos/Marimuthukumaran/SampleJarREPO/releases/135238802/assets
+    - task: CmdLine@2
       inputs:
-        targetType: 'inline'
         script: |
           curl -L \
-            -H "Accept: Marimuthukumaran/SampleJarREPO" \
-            -H "Authorization: Bearer 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" \
-            https://api.github.com/repos/Marimuthukumaran/SampleJarREPO/releases/135238802/assets
+          -H "Accept: Marimuthukumaran/SampleJarREPO" \
+          -H "Authorization: Bearer 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" \
+          https://api.github.com/repos/Marimuthukumaran/SampleJarREPO/releases/135238802/assets
     # - task: DownloadGitHubRelease@0
     #   inputs:
     #     connection: 'newGitServiceConnection'
