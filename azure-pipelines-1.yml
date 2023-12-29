@@ -22,10 +22,5 @@ jobs:
     - task: CmdLine@2
       inputs:
         script: |
-          GH_USER=Marimuthukumaran \
-          GH_REPO=SampleJarREPO \
-          GH_BRANCH=master \
-          wget https://github.com/${GH_USER}/${GH_REPO}/archive/refs/tags/${GH_BRANCH}.zip \
-          -O "${GH_REPO}-${GH_BRANCH}.zip" && \ 
-          unzip ./"${GH_REPO}-${GH_BRANCH}.zip" && \
+          curl -L https://github.com/Marimuthukumaran/SampleJarREPO/releases/download/101/SampleJarREPO-master.tar.gz > yarn.tar.gz
           ls
