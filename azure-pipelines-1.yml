@@ -23,8 +23,6 @@ jobs:
       inputs:
         script: |
           curl -LJO -H 'Accept: Marimuthukumaran/SampleJarREPO' -H 'Authorization: Bearer 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' https://api.github.com/repos/Marimuthukumaran/SampleJarREPO/releases/latest
-          pwd
-          ls
 
     # - task: ExtractFiles@1
     #   inputs:
