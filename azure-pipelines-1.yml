@@ -31,7 +31,7 @@ jobs:
           echo Write your commands here
           
           echo Hello world
-          cd $(System.ArtifactsDirectory)
+          cd $(Build.ArtifactStagingDirectory)
           ls
     # - task: ExtractFiles@1
     #   inputs:
