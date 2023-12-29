@@ -19,6 +19,9 @@ jobs:
   pool:
     vmImage: 'ubuntu-latest'
   steps:
+    - checkout: self
+      persistCredentials: true
+      clean: true
     - task: DownloadGitHubRelease@0
       inputs:
         connection: newGitServiceConnection
