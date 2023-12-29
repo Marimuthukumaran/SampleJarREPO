@@ -19,45 +19,34 @@ jobs:
   pool:
     vmImage: 'ubuntu-latest'
   steps:
-      - task: CmdLine@2
+      - task: Bash@3
         inputs:
+          targetType: 'inline'
           script: |
-            # Replace YOUR_USERNAME, YOUR_REPO, and YOUR_TOKEN with your GitHub details
-            apiUrl="https://api.github.com/repos/Marimuthukumaran/SampleJarREPO/releases/latest"
-            token="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"
-            outputDirectory="$(Agent.BuildDirectory)/GitHubReleases"
+            TOKEN=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
+            USERNAME=Marimuthukumaran
+            REPO=SampleJarREPO
+            RELEASE_ID=101
+            
+            curl -H "Authorization: token $TOKEN" \
+                 -H "Accept: application/octet-stream" \
+                 -LJO https://api.github.com/repos/$USERNAME/$REPO/releases/assets/$RELEASE_ID
 
-            # Set headers for the GitHub API request
-            headers="-H 'Authorization: Bearer $token' -H 'Accept: application/vnd.github.v3+json'"
-
-            # Make the GitHub API request to get release information
-            response=$(curl -sSL $headers $apiUrl)
-
-            # Download each asset in the release
-            for assetUrl in $(echo $response | jq -r '.assets[].browser_download_url'); do
-                assetName=$(basename "$assetUrl")
-                outputPath="$outputDirectory/$assetName"
-                echo "Downloading $assetName..."
-                curl -sSL $headers -o "$outputPath" "$assetUrl"
-            done
-        env:
-          SYSTEM_ACCESSTOKEN: $(System.AccessToken)
-
-      - task: ExtractFiles@1
-        inputs:
-          archiveFilePatterns: '$(Agent.BuildDirectory)/GitHubReleases/*.zip'
-          destinationFolder: '$(Agent.BuildDirectory)/GitHubReleases'
-          cleanDestinationFolder: true
-          overwriteExistingFiles: false
-      - task: Maven@4
-        inputs:
-          mavenPomFile: '$(Agent.BuildDirectory)/GitHubReleases/pom.xml'
-          publishJUnitResults: false
-          testResultsFiles: '**/surefire-reports/TEST-*.xml'
-          javaHomeOption: 'JDKVersion'
-          jdkVersionOption: '1.17'
-          mavenVersionOption: 'Default'
-          mavenAuthenticateFeed: false
-          effectivePomSkip: false
-          sonarQubeRunAnalysis: false
-          goals: 'package'
+      # - task: ExtractFiles@1
+      #   inputs:
+      #     archiveFilePatterns: '$(Agent.BuildDirectory)/GitHubReleases/*.zip'
+      #     destinationFolder: '$(Agent.BuildDirectory)/GitHubReleases'
+      #     cleanDestinationFolder: true
+      #     overwriteExistingFiles: false
+      # - task: Maven@4
+      #   inputs:
+      #     mavenPomFile: '$(Agent.BuildDirectory)/GitHubReleases/pom.xml'
+      #     publishJUnitResults: false
+      #     testResultsFiles: '**/surefire-reports/TEST-*.xml'
+      #     javaHomeOption: 'JDKVersion'
+      #     jdkVersionOption: '1.17'
+      #     mavenVersionOption: 'Default'
+      #     mavenAuthenticateFeed: false
+      #     effectivePomSkip: false
+      #     sonarQubeRunAnalysis: false
+      #     goals: 'package'
