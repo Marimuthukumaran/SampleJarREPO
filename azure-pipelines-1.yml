@@ -33,6 +33,7 @@ jobs:
             
             echo '$(System.ArtifactsDirectory)'
             pwd
+            cd $(System.ArtifactsDirectory)
             ls
       # - task: ExtractFiles@1
       #   inputs:
