@@ -19,42 +19,11 @@ jobs:
   pool:
     vmImage: 'ubuntu-latest'
   steps:
-      - task: GitHubComment@0
-        inputs:
-          gitHubConnection: 'newGitServiceConnection'
-          repositoryName: 'Marimuthukumaran/SampleJarREPO'
-          comment: |
-            gh release download --pattern ''*.zip''
-            gh release list --limit 10
-            gh api \
-            -H "Accept: application/vnd.github+json" \
-            -H "X-GitHub-Api-Version: 2022-11-28" \
-            /repos/Marimuthukumaran/SampleJarREPO/releases
-      - task: Bash@3
-        inputs:
-          targetType: 'inline'
-          script: |
-            LOCATION=$(curl -s https://api.github.com/repos/Marimuthukumaran/SampleJarREPO/releases/latest \
-            | grep "zipball_url" \
-            | awk '{ print $2 }' \
-            | sed 's/,$//'       \
-            | sed 's/"//g' )     \
-            ; curl -L -o first.zip $LOCATION
-      # - task: ExtractFiles@1
-      #   inputs:
-      #     archiveFilePatterns: '$(Agent.BuildDirectory)/*.zip'
-      #     destinationFolder: '$(Agent.BuildDirectory)'
-      #     cleanDestinationFolder: true
-      #     overwriteExistingFiles: false
-      # - task: Maven@4
-      #   inputs:
-      #     mavenPomFile: '$(Agent.BuildDirectory)/pom.xml'
-      #     publishJUnitResults: false
-      #     testResultsFiles: '**/surefire-reports/TEST-*.xml'
-      #     javaHomeOption: 'JDKVersion'
-      #     jdkVersionOption: '1.17'
-      #     mavenVersionOption: 'Default'
-      #     mavenAuthenticateFeed: false
-      #     effectivePomSkip: false
-      #     sonarQubeRunAnalysis: false
-      #     goals: 'deploy'
+    - task: CmdLine@2
+      inputs:
+        script: |
+          curl -s https://api.github.com/repos/Marimuthukumaran/SampleJarREPO/releases/latest \
+          | grep "browser_download_url.*zip" \
+          | cut -d : -f 2,3 \
+          | tr -d \" \
+          | wget -qi -
