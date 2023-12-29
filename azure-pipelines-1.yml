@@ -19,49 +19,43 @@ jobs:
   pool:
     vmImage: 'ubuntu-latest'
   steps:
-      jobs:
-- job: DownloadGitHubRelease
-  pool:
-    vmImage: 'ubuntu-latest'
-  steps:
-  - task: CmdLine@2
-    inputs:
-      script: |
-        # Replace YOUR_USERNAME, YOUR_REPO, and YOUR_TOKEN with your GitHub details
-        apiUrl="https://api.github.com/repos/Marimuthukumaran/SampleJarREPO/releases/latest"
-        token="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"
-        outputDirectory="$(Agent.BuildDirectory)/GitHubReleases"
+      - task: CmdLine@2
+        inputs:
+          script: |
+            # Replace YOUR_USERNAME, YOUR_REPO, and YOUR_TOKEN with your GitHub details
+            apiUrl="https://api.github.com/repos/Marimuthukumaran/SampleJarREPO/releases/latest"
+            token="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"
+            outputDirectory="$(Agent.BuildDirectory)/GitHubReleases"
 
-        # Set headers for the GitHub API request
-        headers="-H 'Authorization: Bearer $token' -H 'Accept: application/json'"
+            # Set headers for the GitHub API request
+            headers="-H 'Authorization: Bearer $token' -H 'Accept: application/json'"
 
-        # Make the GitHub API request to get release information
-        assetUrl=$(curl -sSL $headers $apiUrl | jq -r '.assets[] | select(.browser_download_url | endswith(".zip")) | .browser_download_url')
+            # Make the GitHub API request to get release information
+            assetUrl=$(curl -sSL $headers $apiUrl | jq -r '.assets[] | select(.browser_download_url | endswith(".zip")) | .browser_download_url')
 
-        # Download the latest .zip asset in the release
-        assetName=$(basename "$assetUrl")
-        outputPath="$outputDirectory/$assetName"
-        echo "Downloading $assetName..."
-        curl -sSL $headers -o "$outputPath" "$assetUrl"
-    env:
-      SYSTEM_ACCESSTOKEN: $(System.AccessToken)
+            # Download the latest .zip asset in the release
+            assetName=$(basename "$assetUrl")
+            outputPath="$outputDirectory/$assetName"
+            echo "Downloading $assetName..."
+            curl -sSL $headers -o "$outputPath" "$assetUrl"
+        env:
+          SYSTEM_ACCESSTOKEN: $(System.AccessToken)
 
-
-  - task: ExtractFiles@1
-    inputs:
-      archiveFilePatterns: '$(Agent.BuildDirectory)/GitHubReleases/*.zip'
-      destinationFolder: '$(Agent.BuildDirectory)/GitHubReleases'
-      cleanDestinationFolder: true
-      overwriteExistingFiles: false
-  - task: Maven@4
-    inputs:
-      mavenPomFile: '$(Agent.BuildDirectory)/GitHubReleases/pom.xml'
-      publishJUnitResults: false
-      testResultsFiles: '**/surefire-reports/TEST-*.xml'
-      javaHomeOption: 'JDKVersion'
-      jdkVersionOption: '1.17'
-      mavenVersionOption: 'Default'
-      mavenAuthenticateFeed: false
-      effectivePomSkip: false
-      sonarQubeRunAnalysis: false
-      goals: 'package'
+      - task: ExtractFiles@1
+        inputs:
+          archiveFilePatterns: '$(Agent.BuildDirectory)/GitHubReleases/*.zip'
+          destinationFolder: '$(Agent.BuildDirectory)/GitHubReleases'
+          cleanDestinationFolder: true
+          overwriteExistingFiles: false
+      - task: Maven@4
+        inputs:
+          mavenPomFile: '$(Agent.BuildDirectory)/GitHubReleases/pom.xml'
+          publishJUnitResults: false
+          testResultsFiles: '**/surefire-reports/TEST-*.xml'
+          javaHomeOption: 'JDKVersion'
+          jdkVersionOption: '1.17'
+          mavenVersionOption: 'Default'
+          mavenAuthenticateFeed: false
+          effectivePomSkip: false
+          sonarQubeRunAnalysis: false
+          goals: 'package'
