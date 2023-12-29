@@ -19,11 +19,43 @@ jobs:
   pool:
     vmImage: 'ubuntu-latest'
   steps:
-    - task: CmdLine@2
-      inputs:
-        script: |
-          curl -LJO -H 'Accept: Marimuthukumaran/SampleJarREPO' -H 'Authorization: Bearer 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' https://api.github.com/repos/Marimuthukumaran/SampleJarREPO/releases/latest
-
+    # - task: CmdLine@2
+    #   inputs:
+    #     script: |
+    #       curl -LJO -H 'Accept: Marimuthukumaran/SampleJarREPO' -H 'Authorization: Bearer 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' https://api.github.com/repos/Marimuthukumaran/SampleJarREPO/releases/latest
+     - task: PowerShell@2
+       inputs:
+         targetType: 'inline'
+         script: |
+           # GitHub API URL for the latest release assets
+           $apiUrl = 'https://api.github.com/repos/Marimuthukumaran/SampleJarREPO/releases/latest'
+           
+           # Replace YOUR_TOKEN with your GitHub personal access token
+           $token = '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'
+           
+           # Output directory where the release assets will be saved
+           $outputDirectory = '.'
+           
+           # Set headers for the GitHub API request
+           $headers = @{
+               'Authorization' = "Bearer $token"
+               'Accept' = 'application/octet-stream'
+           }
+           
+           # Make the GitHub API request
+           $response = Invoke-RestMethod -Uri $apiUrl -Headers $headers
+           
+           # Download each asset in the release
+           foreach ($asset in $response.assets) {
+               $assetUrl = $asset.browser_download_url
+               $assetName = [System.IO.Path]::GetFileName($assetUrl)
+               $outputPath = Join-Path $outputDirectory $assetName
+           
+               Write-Host "Downloading $assetName..."
+               Invoke-WebRequest -Uri $assetUrl -Headers $headers -OutFile $outputPath
+           }
+           
+           Write-Host 'Download complete!'
     # - task: ExtractFiles@1
     #   inputs:
     #     archiveFilePatterns: '$(System.ArtifactsDirectory)/*.zip'
