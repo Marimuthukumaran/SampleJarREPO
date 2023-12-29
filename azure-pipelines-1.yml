@@ -55,4 +55,4 @@ jobs:
           mavenAuthenticateFeed: false
           effectivePomSkip: false
           sonarQubeRunAnalysis: false
-          goals: 'package'
+          goals: 'deploy'
