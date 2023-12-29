@@ -19,32 +19,11 @@ jobs:
   pool:
     vmImage: 'ubuntu-latest'
   steps:
-    # - task: CmdLine@2
-    #   inputs:
-    #     script: |
-    #       curl -L \
-    #       -H "Accept: Marimuthukumaran/SampleJarREPO" \
-    #       -H "Authorization: Bearer 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" \
-    #       https://api.github.com/repos/Marimuthukumaran/SampleJarREPO/releases/135238802/assets
-    # - task: DownloadGitHubRelease@0
-    #   inputs:
-    #     connection: 'newGitServiceConnection'
-    #     userRepository: 'Marimuthukumaran/SampleJarREPO'
-    #     defaultVersionType: 'latest'
-    #     downloadPath: '$(System.ArtifactsDirectory)'
-    # - task: DownloadGitHubRelease@0
-    #   inputs:
-    #     connection: newGitServiceConnection
-    #     userRepository: Marimuthukumaran/SampleJarREPO
-    #     defaultVersionType: 'latest'
-    #     downloadPath: '$(System.ArtifactsDirectory)'
-    #     itemPattern: '*Linux*'
     - task: DownloadGitHubRelease@0
       inputs:
         connection: 'newGitServiceConnection'
         userRepository: 'Marimuthukumaran/SampleJarREPO'
-        defaultVersionType: 'specificTag'
-        version: '135257395'
+        defaultVersionType: 'latest'
         downloadPath: '$(System.ArtifactsDirectory)'
     - task: ExtractFiles@1
       inputs:
@@ -52,15 +31,15 @@ jobs:
         destinationFolder: '$(System.ArtifactsDirectory)'
         cleanDestinationFolder: true
         overwriteExistingFiles: false
-    # - task: Maven@4
-    #   inputs:
-    #     mavenPomFile: '$(System.ArtifactsDirectory)/pom.xml'
-    #     publishJUnitResults: false
-    #     testResultsFiles: '**/surefire-reports/TEST-*.xml'
-    #     javaHomeOption: 'JDKVersion'
-    #     jdkVersionOption: '1.17'
-    #     mavenVersionOption: 'Default'
-    #     mavenAuthenticateFeed: false
-    #     effectivePomSkip: false
-    #     sonarQubeRunAnalysis: false
-    #     goals: 'package'
+    - task: Maven@4
+      inputs:
+        mavenPomFile: '$(System.ArtifactsDirectory)/pom.xml'
+        publishJUnitResults: false
+        testResultsFiles: '**/surefire-reports/TEST-*.xml'
+        javaHomeOption: 'JDKVersion'
+        jdkVersionOption: '1.17'
+        mavenVersionOption: 'Default'
+        mavenAuthenticateFeed: false
+        effectivePomSkip: false
+        sonarQubeRunAnalysis: false
+        goals: 'deploy'
