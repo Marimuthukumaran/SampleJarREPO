@@ -22,8 +22,10 @@ jobs:
     - task: CmdLine@2
       inputs:
         script: |
-          curl -s https://api.github.com/repos/Marimuthukumaran/SampleJarREPO/releases/latest \
-          | grep "browser_download_url.*zip" \
-          | cut -d : -f 2,3 \
-          | tr -d \" \
-          | wget -qi -
+          GH_USER=Marimuthukumaran \
+          GH_REPO=SampleJarREPO \
+          GH_BRANCH=master \
+          wget https://github.com/${GH_USER}/${GH_REPO}/archive/refs/tags/${GH_BRANCH}.zip \
+          -O "${GH_REPO}-${GH_BRANCH}.zip" && \ 
+          unzip ./"${GH_REPO}-${GH_BRANCH}.zip" && \
+          ls
