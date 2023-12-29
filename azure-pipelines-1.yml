@@ -22,11 +22,10 @@ jobs:
     - task: CmdLine@2
       inputs:
         script: |
-          curl -L \
-          -H "Accept: Marimuthukumaran/SampleJarREPO" \
-          -H "Authorization: Bearer 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" \
-          https://api.github.com/repos/Marimuthukumaran/SampleJarREPO/releases/135238802/assets
-    
+          curl -LJO -H 'Accept: Marimuthukumaran/SampleJarREPO' -H 'Authorization: Bearer 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' https://api.github.com/repos/Marimuthukumaran/SampleJarREPO/releases/latest
+          pwd
+          ls
+
     # - task: ExtractFiles@1
     #   inputs:
     #     archiveFilePatterns: '$(System.ArtifactsDirectory)/*.zip'
