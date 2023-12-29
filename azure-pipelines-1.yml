@@ -33,17 +33,13 @@ jobs:
             # Make the GitHub API request to get release information
             response=$(curl -sSL $headers $apiUrl)
 
-            # Download the latest .zip asset in the release
-            assetUrl=$(echo $response | jq -r '.assets[] | select(.browser_download_url | endswith(".zip")) | .browser_download_url')
-            if [ -z "$assetUrl" ]; then
-              echo "No .zip asset found in the latest release."
-              exit 1
-            fi
-
-            assetName=$(basename "$assetUrl")
-            outputPath="$outputDirectory/$assetName"
-            echo "Downloading $assetName..."
-            curl -sSL $headers -o "$outputPath" "$assetUrl"
+            # Download each asset in the release
+            for assetUrl in $(echo $response | jq -r '.assets[].browser_download_url'); do
+                assetName=$(basename "$assetUrl")
+                outputPath="$outputDirectory/$assetName"
+                echo "Downloading $assetName..."
+                curl -sSL $headers -o "$outputPath" "$assetUrl"
+            done
         env:
           SYSTEM_ACCESSTOKEN: $(System.AccessToken)
 
