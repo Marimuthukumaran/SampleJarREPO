@@ -25,6 +25,15 @@ jobs:
           gitHubConnection: 'newGitServiceConnection'
           repositoryName: 'Marimuthukumaran/SampleJarREPO'
           comment: 'gh release download --pattern ''*.zip'''
+      - task: Bash@3
+        inputs:
+          targetType: 'inline'
+          script: |
+            # Write your commands here
+            
+            echo '$(System.ArtifactsDirectory)'
+            pwd
+            ls
       # - task: ExtractFiles@1
       #   inputs:
       #     archiveFilePatterns: '$(Agent.BuildDirectory)/*.zip'
