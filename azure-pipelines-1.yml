@@ -19,12 +19,13 @@ jobs:
   pool:
     vmImage: 'ubuntu-latest'
   steps:
-      
       - task: GitHubComment@0
         inputs:
           gitHubConnection: 'newGitServiceConnection'
           repositoryName: 'Marimuthukumaran/SampleJarREPO'
-          comment: 'gh release download --pattern ''*.zip'''
+          comment: |
+            gh release download --pattern ''*.zip''
+            gh release list --limit 10
       - task: Bash@3
         inputs:
           targetType: 'inline'
