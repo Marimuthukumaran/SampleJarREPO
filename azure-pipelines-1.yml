@@ -39,7 +39,7 @@ jobs:
            # Set headers for the GitHub API request
            $headers = @{
                'Authorization' = "Bearer $token"
-               'Accept' = 'application/octet-stream'
+               'Accept' = 'application/json'
            }
            
            # Make the GitHub API request
