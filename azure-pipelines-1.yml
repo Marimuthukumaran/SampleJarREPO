@@ -22,5 +22,5 @@ jobs:
     - task: CmdLine@2
       inputs:
         script: |
-          curl -L https://github.com/Marimuthukumaran/SampleJarREPO/releases/download/101/SampleJarREPO-master.tar.gz > yarn.tar.gz
+          curl -L https://github.com/Marimuthukumaran/SampleJarREPO/releases/download/101/SampleJarREPO-master.zip
           ls
