@@ -19,34 +19,21 @@ jobs:
   pool:
     vmImage: 'ubuntu-latest'
   steps:
-      - task: Bash@3
+      
+      - task: GitHubComment@0
         inputs:
-          targetType: 'inline'
-          script: |
-            TOKEN=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
-            USERNAME=Marimuthukumaran
-            REPO=SampleJarREPO
-            RELEASE_ID=101
-
-            response=$(curl -w "%{http_code}" -H "Authorization: token $TOKEN" \
-            -H "Accept: application/octet-stream" \
-            -LJO https://api.github.com/repos/$USERNAME/$REPO/releases/assets/$RELEASE_ID)
-
-            http_status=$(echo "$response" | tail -n1)
-            if [ "$http_status" -eq 200 ]; then
-                echo "Release asset downloaded successfully."
-            else
-                echo "Failed to download release asset. HTTP Status Code: $http_status"
-            fi
+          gitHubConnection: 'newGitServiceConnection'
+          repositoryName: 'Marimuthukumaran/SampleJarREPO'
+          comment: 'gh release download --pattern ''*.zip'''
       - task: ExtractFiles@1
         inputs:
-          archiveFilePatterns: '$(Agent.BuildDirectory)/GitHubReleases/*.zip'
-          destinationFolder: '$(Agent.BuildDirectory)/GitHubReleases'
+          archiveFilePatterns: '$(Agent.BuildDirectory)/*.zip'
+          destinationFolder: '$(Agent.BuildDirectory)'
           cleanDestinationFolder: true
           overwriteExistingFiles: false
       - task: Maven@4
         inputs:
-          mavenPomFile: '$(Agent.BuildDirectory)/GitHubReleases/pom.xml'
+          mavenPomFile: '$(Agent.BuildDirectory)/pom.xml'
           publishJUnitResults: false
           testResultsFiles: '**/surefire-reports/TEST-*.xml'
           javaHomeOption: 'JDKVersion'
