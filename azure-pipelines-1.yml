@@ -28,12 +28,18 @@ jobs:
             outputDirectory="$(Agent.BuildDirectory)/GitHubReleases"
 
             # Set headers for the GitHub API request
-            headers="-H 'Authorization: Bearer $token' -H 'Accept: application/json'"
+            headers="-H 'Authorization: Bearer $token' -H 'Accept: application/vnd.github.v3+json'"
 
             # Make the GitHub API request to get release information
-            assetUrl=$(curl -sSL $headers $apiUrl | jq -r '.assets[] | select(.browser_download_url | endswith(".zip")) | .browser_download_url')
+            response=$(curl -sSL $headers $apiUrl)
 
             # Download the latest .zip asset in the release
+            assetUrl=$(echo $response | jq -r '.assets[] | select(.browser_download_url | endswith(".zip")) | .browser_download_url')
+            if [ -z "$assetUrl" ]; then
+              echo "No .zip asset found in the latest release."
+              exit 1
+            fi
+
             assetName=$(basename "$assetUrl")
             outputPath="$outputDirectory/$assetName"
             echo "Downloading $assetName..."
