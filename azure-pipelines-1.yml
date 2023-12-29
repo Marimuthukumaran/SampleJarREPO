@@ -25,21 +25,21 @@ jobs:
           gitHubConnection: 'newGitServiceConnection'
           repositoryName: 'Marimuthukumaran/SampleJarREPO'
           comment: 'gh release download --pattern ''*.zip'''
-      - task: ExtractFiles@1
-        inputs:
-          archiveFilePatterns: '$(Agent.BuildDirectory)/*.zip'
-          destinationFolder: '$(Agent.BuildDirectory)'
-          cleanDestinationFolder: true
-          overwriteExistingFiles: false
-      - task: Maven@4
-        inputs:
-          mavenPomFile: '$(Agent.BuildDirectory)/pom.xml'
-          publishJUnitResults: false
-          testResultsFiles: '**/surefire-reports/TEST-*.xml'
-          javaHomeOption: 'JDKVersion'
-          jdkVersionOption: '1.17'
-          mavenVersionOption: 'Default'
-          mavenAuthenticateFeed: false
-          effectivePomSkip: false
-          sonarQubeRunAnalysis: false
-          goals: 'deploy'
+      # - task: ExtractFiles@1
+      #   inputs:
+      #     archiveFilePatterns: '$(Agent.BuildDirectory)/*.zip'
+      #     destinationFolder: '$(Agent.BuildDirectory)'
+      #     cleanDestinationFolder: true
+      #     overwriteExistingFiles: false
+      # - task: Maven@4
+      #   inputs:
+      #     mavenPomFile: '$(Agent.BuildDirectory)/pom.xml'
+      #     publishJUnitResults: false
+      #     testResultsFiles: '**/surefire-reports/TEST-*.xml'
+      #     javaHomeOption: 'JDKVersion'
+      #     jdkVersionOption: '1.17'
+      #     mavenVersionOption: 'Default'
+      #     mavenAuthenticateFeed: false
+      #     effectivePomSkip: false
+      #     sonarQubeRunAnalysis: false
+      #     goals: 'deploy'
