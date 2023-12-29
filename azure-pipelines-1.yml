@@ -27,10 +27,17 @@ jobs:
             USERNAME=Marimuthukumaran
             REPO=SampleJarREPO
             RELEASE_ID=101
-            
-            curl -H "Authorization: token $TOKEN" \
-                 -H "Accept: application/octet-stream" \
-                 -LJO https://api.github.com/repos/$USERNAME/$REPO/releases/assets/$RELEASE_ID
+
+            response=$(curl -w "%{http_code}" -H "Authorization: token $TOKEN" \
+            -H "Accept: application/octet-stream" \
+            -LJO https://api.github.com/repos/$USERNAME/$REPO/releases/assets/$RELEASE_ID)
+
+            http_status=$(echo "$response" | tail -n1)
+            if [ "$http_status" -eq 200 ]; then
+                echo "Release asset downloaded successfully."
+            else
+                echo "Failed to download release asset. HTTP Status Code: $http_status"
+            fi
       - task: ExtractFiles@1
         inputs:
           archiveFilePatterns: '$(Agent.BuildDirectory)/GitHubReleases/*.zip'
