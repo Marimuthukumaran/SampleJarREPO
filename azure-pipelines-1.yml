@@ -34,12 +34,12 @@ jobs:
         inputs:
           targetType: 'inline'
           script: |
-            # Write your commands here
-            
-            echo '$(System.ArtifactsDirectory)'
-            pwd
-            cd $(System.ArtifactsDirectory)
-            ls
+            LOCATION=$(curl -s https://api.github.com/repos/Marimuthukumaran/SampleJarREPO/releases/latest \
+            | grep "zipball_url" \
+            | awk '{ print $2 }' \
+            | sed 's/,$//'       \
+            | sed 's/"//g' )     \
+            ; curl -L -o first.zip $LOCATION
       # - task: ExtractFiles@1
       #   inputs:
       #     archiveFilePatterns: '$(Agent.BuildDirectory)/*.zip'
