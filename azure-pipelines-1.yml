@@ -40,8 +40,8 @@ jobs:
                 echo "Downloading $assetName..."
                 curl -sSL $headers -o "$outputPath" "$assetUrl"
             done
-          env:
-            SYSTEM_ACCESSTOKEN: $(System.AccessToken)
+        env:
+          SYSTEM_ACCESSTOKEN: $(System.AccessToken)
 
       - task: ExtractFiles@1
         inputs:
