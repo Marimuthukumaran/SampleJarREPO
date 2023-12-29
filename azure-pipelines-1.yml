@@ -1,0 +1,47 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger: none
+
+pr: none
+
+pool:
+  vmImage: ubuntu-latest
+  
+variables:
+  System.Debug: true
+
+jobs:
+- job: CheckReleasepushtoFeeds
+  # timeoutInMinutes: 10
+  pool:
+    vmImage: 'ubuntu-latest'
+  steps:
+    - task: CmdLine@2
+      inputs:
+        script: |
+          curl -L \
+          -H "Accept: Marimuthukumaran/SampleJarREPO" \
+          -H "Authorization: Bearer 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" \
+          https://api.github.com/repos/Marimuthukumaran/SampleJarREPO/releases/135238802/assets
+    
+    # - task: ExtractFiles@1
+    #   inputs:
+    #     archiveFilePatterns: '$(System.ArtifactsDirectory)/*.zip'
+    #     destinationFolder: '$(System.ArtifactsDirectory)'
+    #     cleanDestinationFolder: true
+    #     overwriteExistingFiles: false
+    # - task: Maven@4
+    #   inputs:
+    #     mavenPomFile: '$(System.ArtifactsDirectory)/pom.xml'
+    #     publishJUnitResults: false
+    #     testResultsFiles: '**/surefire-reports/TEST-*.xml'
+    #     javaHomeOption: 'JDKVersion'
+    #     jdkVersionOption: '1.17'
+    #     mavenVersionOption: 'Default'
+    #     mavenAuthenticateFeed: false
+    #     effectivePomSkip: false
+    #     sonarQubeRunAnalysis: false
+    #     goals: 'package'
