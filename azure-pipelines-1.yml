@@ -25,21 +25,29 @@ jobs:
         userRepository: Marimuthukumaran/SampleJarREPO
         defaultVersionType: 'latest'
         itemPattern: '**'
-    - task: ExtractFiles@1
+    - task: CmdLine@2
       inputs:
-        archiveFilePatterns: '$(System.ArtifactsDirectory)/*.zip'
-        destinationFolder: '$(System.ArtifactsDirectory)'
-        cleanDestinationFolder: true
-        overwriteExistingFiles: false
-    - task: Maven@4
-      inputs:
-        mavenPomFile: '$(System.ArtifactsDirectory)/pom.xml'
-        publishJUnitResults: false
-        testResultsFiles: '**/surefire-reports/TEST-*.xml'
-        javaHomeOption: 'JDKVersion'
-        jdkVersionOption: '1.17'
-        mavenVersionOption: 'Default'
-        mavenAuthenticateFeed: false
-        effectivePomSkip: false
-        sonarQubeRunAnalysis: false
-        goals: 'deploy'
+        script: |
+          echo Write your commands here
+          
+          echo Hello world
+          cd $(System.ArtifactsDirectory)
+          ls
+    # - task: ExtractFiles@1
+    #   inputs:
+    #     archiveFilePatterns: '$(System.ArtifactsDirectory)/*.zip'
+    #     destinationFolder: '$(System.ArtifactsDirectory)'
+    #     cleanDestinationFolder: true
+    #     overwriteExistingFiles: false
+    # - task: Maven@4
+    #   inputs:
+    #     mavenPomFile: '$(System.ArtifactsDirectory)/pom.xml'
+    #     publishJUnitResults: false
+    #     testResultsFiles: '**/surefire-reports/TEST-*.xml'
+    #     javaHomeOption: 'JDKVersion'
+    #     jdkVersionOption: '1.17'
+    #     mavenVersionOption: 'Default'
+    #     mavenAuthenticateFeed: false
+    #     effectivePomSkip: false
+    #     sonarQubeRunAnalysis: false
+    #     goals: 'deploy'
