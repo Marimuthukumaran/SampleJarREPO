@@ -25,7 +25,7 @@ jobs:
             # Replace YOUR_USERNAME, YOUR_REPO, and YOUR_TOKEN with your GitHub details
             apiUrl="https://api.github.com/repos/Marimuthukumaran/SampleJarREPO/releases/latest"
             token="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"
-            outputDirectory=$(Agent.BuildDirectory)/GitHubReleases
+            outputDirectory="$(Agent.BuildDirectory)/GitHubReleases"
 
             # Set headers for the GitHub API request
             headers="-H 'Authorization: Bearer $token' -H 'Accept: application/json'"
@@ -33,15 +33,15 @@ jobs:
             # Make the GitHub API request to get release information
             response=$(curl -sSL $headers $apiUrl)
 
-            # Download each asset in the release
-            for assetUrl in $(echo $response | jq -r '.assets[].browser_download_url'); do
-                assetName=$(basename $assetUrl)
+            # Download each .zip asset in the release
+            for assetUrl in $(echo $response | jq -r '.assets[] | select(.browser_download_url | endswith(".zip")) | .browser_download_url'); do
+                assetName=$(basename "$assetUrl")
                 outputPath="$outputDirectory/$assetName"
                 echo "Downloading $assetName..."
                 curl -sSL $headers -o "$outputPath" "$assetUrl"
             done
-        env:
-          SYSTEM_ACCESSTOKEN: $(System.AccessToken)
+          env:
+            SYSTEM_ACCESSTOKEN: $(System.AccessToken)
 
       - task: ExtractFiles@1
         inputs:
