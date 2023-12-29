@@ -31,22 +31,21 @@ jobs:
             curl -H "Authorization: token $TOKEN" \
                  -H "Accept: application/octet-stream" \
                  -LJO https://api.github.com/repos/$USERNAME/$REPO/releases/assets/$RELEASE_ID
-
-      # - task: ExtractFiles@1
-      #   inputs:
-      #     archiveFilePatterns: '$(Agent.BuildDirectory)/GitHubReleases/*.zip'
-      #     destinationFolder: '$(Agent.BuildDirectory)/GitHubReleases'
-      #     cleanDestinationFolder: true
-      #     overwriteExistingFiles: false
-      # - task: Maven@4
-      #   inputs:
-      #     mavenPomFile: '$(Agent.BuildDirectory)/GitHubReleases/pom.xml'
-      #     publishJUnitResults: false
-      #     testResultsFiles: '**/surefire-reports/TEST-*.xml'
-      #     javaHomeOption: 'JDKVersion'
-      #     jdkVersionOption: '1.17'
-      #     mavenVersionOption: 'Default'
-      #     mavenAuthenticateFeed: false
-      #     effectivePomSkip: false
-      #     sonarQubeRunAnalysis: false
-      #     goals: 'package'
+      - task: ExtractFiles@1
+        inputs:
+          archiveFilePatterns: '$(Agent.BuildDirectory)/GitHubReleases/*.zip'
+          destinationFolder: '$(Agent.BuildDirectory)/GitHubReleases'
+          cleanDestinationFolder: true
+          overwriteExistingFiles: false
+      - task: Maven@4
+        inputs:
+          mavenPomFile: '$(Agent.BuildDirectory)/GitHubReleases/pom.xml'
+          publishJUnitResults: false
+          testResultsFiles: '**/surefire-reports/TEST-*.xml'
+          javaHomeOption: 'JDKVersion'
+          jdkVersionOption: '1.17'
+          mavenVersionOption: 'Default'
+          mavenAuthenticateFeed: false
+          effectivePomSkip: false
+          sonarQubeRunAnalysis: false
+          goals: 'package'
