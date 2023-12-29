@@ -26,27 +26,15 @@ jobs:
           TOKEN=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
           USERNAME=Marimuthukumaran
           REPO=SampleJarREPO
-          TAG=test2  # Replace with the actual tag name
+          RELEASE_ID=test2
 
-          # Get the release ID using the tag
-          RELEASE_ID=$(curl -s -H "Authorization: token $TOKEN" \
-                        -H "Accept: application/vnd.github.v3+json" \
-                        https://api.github.com/repos/$USERNAME/$REPO/releases/tags/$TAG | jq -r '.id')
-
-          if [ "$RELEASE_ID" = "null" ]; then
-              echo "Failed to retrieve release ID for tag $TAG."
-              exit 1
-          fi
-
-          # Download the release asset
           response=$(curl -w "%{http_code}" -H "Authorization: token $TOKEN" \
-                      -H "Accept: application/octet-stream" \
-                      -LJO https://api.github.com/repos/$USERNAME/$REPO/releases/assets/$RELEASE_ID)
+          -H "Accept: application/octet-stream" \
+          -LJO https://api.github.com/repos/$USERNAME/$REPO/releases/assets/$RELEASE_ID)
 
           http_status=$(echo "$response" | tail -n1)
           if [ "$http_status" -eq 200 ]; then
               echo "Release asset downloaded successfully."
           else
               echo "Failed to download release asset. HTTP Status Code: $http_status"
-              exit 1
           fi
