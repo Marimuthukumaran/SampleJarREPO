@@ -10,8 +10,8 @@ pr: none
 pool:
   vmImage: ubuntu-latest
   
-variables:
-  System.Debug: true
+# variables:
+#   System.Debug: true
 
 jobs:
 - job: CheckReleasepushtoFeeds
