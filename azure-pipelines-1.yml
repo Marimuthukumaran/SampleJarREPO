@@ -1,61 +1,31 @@
 trigger: none
-
 pr: none
 
 pool:
-  vmImage: ubuntu-latest
-
-variables:
-  System.Debug: true
+  vmImage: 'windows-latest'
 
 jobs:
-- job: CheckReleasepushtoFeeds
-  pool:
-    vmImage: 'ubuntu-latest'
+- job: DownloadGitHubReleases
   steps:
-    - checkout: self
-      persistCredentials: true
-      clean: true
+  - powershell: |
+      # Define variables
+      $githubRepoOwner = "Marimuthukumaran"
+      $githubRepoName = "SampleJarREPO"
+      $githubToken = "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"  # Create a GitHub token with 'repo' scope
 
-    - script: |
-        # Set GitHub repository details
-        repo_owner="Marimuthukumaran"
-        repo_name="SampleJarREPO"
-        github_token="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"
-        
-        # GitHub API URL to get releases
-        api_url="https://api.github.com/repos/${repo_owner}/${repo_name}/releases"
-        
-        # Make the HTTP request to GitHub API using curl
-        response=$(curl -s -H "Authorization: token ${github_token}" ${api_url})
-        
-        # Check if the request was successful
-        if [[ $? -eq 0 ]]; then
-            # Parse the JSON response to extract release information
-            release_id=$(echo ${response} | jq -r '.[0].id')
-            release_name=$(echo ${response} | jq -r '.[0].name')
-            release_tag=$(echo ${response} | jq -r '.[0].tag_name')
-            
-            # Get the asset ID of the first asset in the release (change the index if needed)
-            asset_id=$(echo ${response} | jq -r '.[0].assets[0].id')
-            asset_name=$(echo ${response} | jq -r '.[0].assets[0].name')
-            
-            # Construct the asset download URL
-            asset_url="https://api.github.com/repos/${repo_owner}/${repo_name}/releases/${release_id}/assets/${asset_id}"
-            
-            # Download the asset using curl
-            curl -LJO -H "Authorization: token ${github_token}" ${asset_url}
-            
-            # Output download information
-            echo "Downloaded ${asset_name} from release: ${release_name} (${release_tag})"
-        else
-            echo "Failed to retrieve release information. Check your GitHub token and repository details."
-        fi
-      displayName: 'Download Release Asset'
+      # Get the latest release information
+      $latestRelease = Invoke-RestMethod -Uri "https://api.github.com/repos/$githubRepoOwner/$githubRepoName/releases/latest" -Headers @{Authorization = "token $githubToken"}
 
-    - script: |
-        echo Write your commands here
-        echo Hello world
-        cd $(System.ArtifactsDirectory)
-        ls
-      displayName: 'Additional Commands'
+      # Extract the download URL and asset name
+      $downloadUrl = $latestRelease.assets[0].browser_download_url
+      $assetName = $latestRelease.assets[0].name
+
+      # Download the release asset
+      Invoke-WebRequest -Uri $downloadUrl -OutFile $assetName
+
+    displayName: 'Download GitHub Release Asset'
+  - task: PublishBuildArtifacts@1
+    inputs:
+      pathtoPublish: '$(System.DefaultWorkingDirectory)'
+      artifactName: 'GitHubReleaseArtifacts'
+    displayName: 'Publish Artifacts'
