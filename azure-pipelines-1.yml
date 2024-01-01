@@ -11,7 +11,7 @@ jobs:
       $downloadUrl = "https://github.com/Marimuthukumaran/SampleJarREPO/archive/refs/tags/101.zip"
       $outputPath = "$(System.DefaultWorkingDirectory)\release.zip"
 
-      wget -O $outputPath $downloadUrl
+      curl -o $outputPath -L $downloadUrl
 
     displayName: 'Download GitHub Release'
   - task: PublishBuildArtifacts@1
