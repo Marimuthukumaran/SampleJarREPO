@@ -11,7 +11,7 @@ steps:
     repoName="SampleJarREPO"
     releaseId="101"
 
-    url="https://api.github.com/repos/$repoOwner/$repoName/releases/$releaseId/assets"
+    url="https://api.github.com/repos/$repoOwner/$repoName/releases"
     headers="Authorization: Bearer $githubToken"
 
     assets=$(curl -s -H "$headers" "$url")
