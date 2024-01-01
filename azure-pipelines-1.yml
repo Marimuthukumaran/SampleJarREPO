@@ -6,10 +6,12 @@ pool:
 
 steps:
 - bash: |
-    githubToken="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"
+    #!/bin/bash
+
+    # Replace these values with your GitHub repository details and release tag
     repoOwner="Marimuthukumaran"
     repoName="SampleJarREPO"
-    releaseTag="101"
+    releaseTag="100"
 
     # GitHub API endpoint for the release
     url="https://api.github.com/repos/$repoOwner/$repoName/releases/tags/$releaseTag"
@@ -17,14 +19,26 @@ steps:
     # Get the download URL for the zipball from the GitHub API
     zipballUrl=$(curl -s "$url" | jq -r '.zipball_url')
 
+    # Check if the zipball URL is valid
+    if [ -z "$zipballUrl" ] || [ "$zipballUrl" == "null" ]; then
+        echo "Error: Unable to retrieve valid zipball URL."
+        exit 1
+    fi
+
     # Specify the local filename for the downloaded zip file
     localZipFile="release_$releaseTag.zip"
 
     # Download the zipball using curl
     curl -L -o "$localZipFile" "$zipballUrl"
 
-    # Print a message indicating the download is complete
-    echo "Release zip file downloaded: $localZipFile"
+    # Check if the download was successful
+    if [ $? -eq 0 ]; then
+        echo "Release zip file downloaded: $localZipFile"
+    else
+        echo "Error: Failed to download the release zip file."
+        exit 1
+    fi
+
 
   displayName: 'List GitHub Release Assets'
 
