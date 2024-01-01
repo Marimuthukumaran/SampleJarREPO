@@ -8,7 +8,7 @@ jobs:
 - job: DownloadGitHubRelease
   steps:
   - powershell: |
-      $downloadUrl = "https://github.com/Marimuthukumaran/SampleJarREPO/archive/refs/tags/101.zip"
+      $downloadUrl = "https://github.com/Marimuthukumaran/SampleJarREPO/releases/tag/101.zip"
       $outputPath = "$(System.DefaultWorkingDirectory)\release.zip"
 
       # Download the release ZIP file
