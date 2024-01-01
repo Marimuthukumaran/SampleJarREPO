@@ -1,15 +1,10 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
 trigger: none
 
 pr: none
 
 pool:
   vmImage: ubuntu-latest
-  
+
 variables:
   System.Debug: true
 
@@ -21,62 +16,65 @@ jobs:
     - checkout: self
       persistCredentials: true
       clean: true
+
     - task: UseDotNet@2
       inputs:
         packageType: 'sdk'
         version: '3.x'
+
     - task: DownloadSecureFile@1
       name: downloadTool
       displayName: 'Download JetBrains.TeamCity.GitHubReleaseNotes.Tool'
       inputs:
         secureFile: 'JetBrains.TeamCity.GitHubReleaseNotes.Tool.1.1.2.nupkg'
 
-    - script: dotnet tool install -g --add-source $(Agent.TempDirectory) JetBrains.TeamCity.GitHubReleaseNotes.Tool --version "1.1.2"
+    - script: |
+        cp $(downloadTool.secureFilePath) $(Agent.TempDirectory)/JetBrains.TeamCity.GitHubReleaseNotes.Tool.1.1.2.nupkg
+        dotnet tool install -g --add-source $(Agent.TempDirectory) JetBrains.TeamCity.GitHubReleaseNotes.Tool --version "1.1.2"
       displayName: 'Install JetBrains.TeamCity.GitHubReleaseNotes.Tool'
 
     - script: dotnet GitHubReleaseNotes.dll
       displayName: 'Run GitHubReleaseNotes'
-    - task: CmdLine@2
-      inputs:
-        script: |
-          # Set GitHub repository details
-          repo_owner="Marimuthukumaran"
-          repo_name="SampleJarREPO"
-          github_token="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"
-          
-          # GitHub API URL to get releases
-          api_url="https://api.github.com/repos/${repo_owner}/${repo_name}/releases"
-          
-          # Make the HTTP request to GitHub API using curl
-          response=$(curl -s -H "Authorization: token ${github_token}" ${api_url})
-          
-          # Check if the request was successful
-          if [[ $? -eq 0 ]]; then
-              # Parse the JSON response to extract release information
-              release_id=$(echo ${response} | jq -r '.[0].id')
-              release_name=$(echo ${response} | jq -r '.[0].name')
-              release_tag=$(echo ${response} | jq -r '.[0].tag_name')
-              
-              # Get the asset ID of the first asset in the release (change the index if needed)
-              asset_id=$(echo ${response} | jq -r '.[0].assets[0].id')
-              asset_name=$(echo ${response} | jq -r '.[0].assets[0].name')
-              
-              # Construct the asset download URL
-              asset_url="https://api.github.com/repos/${repo_owner}/${repo_name}/releases/${release_id}/assets/${asset_id}"
-              
-              # Download the asset using curl
-              curl -LJO -H "Authorization: token ${github_token}" ${asset_url}
-              
-              # Output download information
-              echo "Downloaded ${asset_name} from release: ${release_name} (${release_tag})"
-          else
-              echo "Failed to retrieve release information. Check your GitHub token and repository details."
-          fi
-    - task: CmdLine@2
-      inputs:
-        script: |
-          echo Write your commands here
-          
-          echo Hello world
-          cd $(System.ArtifactsDirectory)
-          ls
+
+    - script: |
+        # Set GitHub repository details
+        repo_owner="Marimuthukumaran"
+        repo_name="SampleJarREPO"
+        github_token="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"
+        
+        # GitHub API URL to get releases
+        api_url="https://api.github.com/repos/${repo_owner}/${repo_name}/releases"
+        
+        # Make the HTTP request to GitHub API using curl
+        response=$(curl -s -H "Authorization: token ${github_token}" ${api_url})
+        
+        # Check if the request was successful
+        if [[ $? -eq 0 ]]; then
+            # Parse the JSON response to extract release information
+            release_id=$(echo ${response} | jq -r '.[0].id')
+            release_name=$(echo ${response} | jq -r '.[0].name')
+            release_tag=$(echo ${response} | jq -r '.[0].tag_name')
+            
+            # Get the asset ID of the first asset in the release (change the index if needed)
+            asset_id=$(echo ${response} | jq -r '.[0].assets[0].id')
+            asset_name=$(echo ${response} | jq -r '.[0].assets[0].name')
+            
+            # Construct the asset download URL
+            asset_url="https://api.github.com/repos/${repo_owner}/${repo_name}/releases/${release_id}/assets/${asset_id}"
+            
+            # Download the asset using curl
+            curl -LJO -H "Authorization: token ${github_token}" ${asset_url}
+            
+            # Output download information
+            echo "Downloaded ${asset_name} from release: ${release_name} (${release_tag})"
+        else
+            echo "Failed to retrieve release information. Check your GitHub token and repository details."
+        fi
+      displayName: 'Download Release Asset'
+
+    - script: |
+        echo Write your commands here
+        echo Hello world
+        cd $(System.ArtifactsDirectory)
+        ls
+      displayName: 'Additional Commands'
