@@ -20,8 +20,9 @@ steps:
     zipballUrl=$(curl -s "$url" | jq -r '.zipball_url')
 
     # Check if the zipball URL is valid
-    if [ -z "$zipballUrl" ] || [ "$zipballUrl" == "null" ]; then
-        echo "Error: Unable to retrieve valid zipball URL."
+    if [ "$zipballUrl" == "null" ] || [ -z "$zipballUrl" ]; then
+        echo "Error: Unable to retrieve valid zipball URL. Check GitHub API response:"
+        curl -s "$url" | jq '.'
         exit 1
     fi
 
@@ -38,7 +39,6 @@ steps:
         echo "Error: Failed to download the release zip file."
         exit 1
     fi
-
 
   displayName: 'List GitHub Release Assets'
 
