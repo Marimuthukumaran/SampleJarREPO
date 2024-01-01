@@ -25,8 +25,18 @@ jobs:
       inputs:
         packageType: 'sdk'
         version: '3.x'
-    - script: dotnet tool install -g JetBrains.TeamCity.GitHubReleaseNotes.Tool --add-source https://api.nuget.org/v3/index.json --version "1.1.2"
+    - task: DownloadSecureFile@1
+      name: downloadTool
+      displayName: 'Download JetBrains.TeamCity.GitHubReleaseNotes.Tool'
+      inputs:
+        secureFile: 'path/to/JetBrains.TeamCity.GitHubReleaseNotes.Tool.1.1.2.nupkg'
+
+    - script: dotnet tool install -g --add-source $(Agent.TempDirectory) JetBrains.TeamCity.GitHubReleaseNotes.Tool --version "1.1.2"
+      displayName: 'Install JetBrains.TeamCity.GitHubReleaseNotes.Tool'
+
     - script: dotnet GitHubReleaseNotes.dll
+      displayName: 'Run GitHubReleaseNotes'
+
     - task: CmdLine@2
       inputs:
         script: |
