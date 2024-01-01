@@ -6,6 +6,9 @@ pool:
 
 steps:
 - bash: |
+    curl -s -H "Authorization: Bearer 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" "https://api.github.com/repos/Marimuthukumaran/SampleJarREPO/releases/tags/100"
+
+- bash: |
     #!/bin/bash
 
     # Replace these values with your GitHub repository details and release tag
