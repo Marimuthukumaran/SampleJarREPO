@@ -2,20 +2,19 @@ trigger: none
 pr: none
 
 pool:
-  vmImage: 'windows-latest'
+  vmImage: 'ubuntu-latest'
 
-jobs:
-- job: DownloadGitHubRelease
-  steps:
-  - powershell: |
-      $downloadUrl = "https://github.com/Marimuthukumaran/SampleJarREPO/archive/refs/tags/101.zip"
-      $outputPath = "$(System.DefaultWorkingDirectory)\release.zip"
+steps:
+- bash: |
+    githubToken="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"
+    repoOwner="Marimuthukumaran"
+    repoName="SampleJarREPO"
+    releaseId="101"
 
-      curl -o $outputPath -L $downloadUrl
+    url="https://api.github.com/repos/$repoOwner/$repoName/releases/$releaseId/assets"
+    headers="Authorization: Bearer $githubToken"
 
-    displayName: 'Download GitHub Release'
-  - task: PublishBuildArtifacts@1
-    inputs:
-      pathtoPublish: '$(System.DefaultWorkingDirectory)'
-      artifactName: 'GitHubReleaseArtifacts'
-    displayName: 'Publish Artifacts'
+    assets=$(curl -s -H "$headers" "$url")
+    echo "$assets"
+  displayName: 'List GitHub Release Assets'
+
