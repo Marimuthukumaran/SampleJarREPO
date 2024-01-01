@@ -9,12 +9,22 @@ steps:
     githubToken="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"
     repoOwner="Marimuthukumaran"
     repoName="SampleJarREPO"
-    releaseId="101"
+    releaseTag="101"
 
-    url="https://api.github.com/repos/$repoOwner/$repoName/releases"
-    headers="Authorization: Bearer $githubToken"
+    # GitHub API endpoint for the release
+    url="https://api.github.com/repos/$repoOwner/$repoName/releases/tags/$releaseTag"
 
-    assets=$(curl -s -H "$headers" "$url")
-    echo "$assets"
+    # Get the download URL for the zipball from the GitHub API
+    zipballUrl=$(curl -s "$url" | jq -r '.zipball_url')
+
+    # Specify the local filename for the downloaded zip file
+    localZipFile="release_$releaseTag.zip"
+
+    # Download the zipball using curl
+    curl -L -o "$localZipFile" "$zipballUrl"
+
+    # Print a message indicating the download is complete
+    echo "Release zip file downloaded: $localZipFile"
+
   displayName: 'List GitHub Release Assets'
 
