@@ -25,7 +25,7 @@ jobs:
       inputs:
         packageType: 'sdk'
         version: '3.x'
-    - script: dotnet tool install -g JetBrains.TeamCity.GitHubReleaseNotes.Tool
+    - script: dotnet tool install -g JetBrains.TeamCity.GitHubReleaseNotes.Tool --add-source https://api.nuget.org/v3/index.json --version "1.1.2"
     - script: dotnet GitHubReleaseNotes.dll
     - task: CmdLine@2
       inputs:
