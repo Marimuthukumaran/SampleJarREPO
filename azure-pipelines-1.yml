@@ -9,9 +9,9 @@ jobs:
   steps:
   - powershell: |
       # Define variables
-      $githubRepoOwner = "your-username"
-      $githubRepoName = "your-repo"
-      $githubToken = "your-github-token"  # Create a GitHub token with 'repo' scope
+      $githubRepoOwner = "Marimuthukumaran"
+      $githubRepoName = "SampleJarREPO"
+      $githubToken = "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"  # Create a GitHub token with 'repo' scope
 
       # Get the latest release information
       $latestRelease = Invoke-RestMethod -Uri "https://api.github.com/repos/$githubRepoOwner/$githubRepoName/releases/latest" -Headers @{Authorization = "token $githubToken"}
