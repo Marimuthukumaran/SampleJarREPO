@@ -36,7 +36,6 @@ jobs:
 
     - script: dotnet GitHubReleaseNotes.dll
       displayName: 'Run GitHubReleaseNotes'
-
     - task: CmdLine@2
       inputs:
         script: |
