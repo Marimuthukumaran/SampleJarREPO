@@ -9,16 +9,33 @@ jobs:
   steps:
   - powershell: |
       # Define variables
-      $githubRepoOwner = "Marimuthukumaran"
-      $githubRepoName = "SampleJarREPO"
-      $githubToken = "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"  # Create a GitHub token with 'repo' scope
+      $githubRepoOwner = "your-username"
+      $githubRepoName = "your-repo"
+      $githubToken = "your-github-token"  # Create a GitHub token with 'repo' scope
 
       # Get the latest release information
       $latestRelease = Invoke-RestMethod -Uri "https://api.github.com/repos/$githubRepoOwner/$githubRepoName/releases/latest" -Headers @{Authorization = "token $githubToken"}
 
+      # Check if the release information is retrieved successfully
+      if ($latestRelease -eq $null) {
+        Write-Host "Failed to retrieve release information."
+        exit 1
+      }
+
       # Extract the download URL and asset name
+      if ($latestRelease.assets.Count -eq 0) {
+        Write-Host "No assets found in the latest release."
+        exit 1
+      }
+
       $downloadUrl = $latestRelease.assets[0].browser_download_url
       $assetName = $latestRelease.assets[0].name
+
+      # Check if the download URL is valid
+      if (-not $downloadUrl) {
+        Write-Host "Download URL is null or empty."
+        exit 1
+      }
 
       # Download the release asset
       Invoke-WebRequest -Uri $downloadUrl -OutFile $assetName
