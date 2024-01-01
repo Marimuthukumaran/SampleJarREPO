@@ -17,25 +17,6 @@ jobs:
       persistCredentials: true
       clean: true
 
-    - task: UseDotNet@2
-      inputs:
-        packageType: 'sdk'
-        version: '3.x'
-
-    - task: DownloadSecureFile@1
-      name: downloadTool
-      displayName: 'Download JetBrains.TeamCity.GitHubReleaseNotes.Tool'
-      inputs:
-        secureFile: 'JetBrains.TeamCity.GitHubReleaseNotes.Tool.1.1.2.nupkg'
-
-    - script: |
-        cp $(downloadTool.secureFilePath) $(Agent.TempDirectory)/JetBrains.TeamCity.GitHubReleaseNotes.Tool.1.1.2.nupkg
-        dotnet tool install -g --add-source $(Agent.TempDirectory) JetBrains.TeamCity.GitHubReleaseNotes.Tool --version "1.1.2"
-      displayName: 'Install JetBrains.TeamCity.GitHubReleaseNotes.Tool'
-
-    - script: dotnet GitHubReleaseNotes.dll
-      displayName: 'Run GitHubReleaseNotes'
-
     - script: |
         # Set GitHub repository details
         repo_owner="Marimuthukumaran"
