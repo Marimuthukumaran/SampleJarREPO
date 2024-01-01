@@ -14,7 +14,7 @@ jobs:
       $githubToken = "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"  # Create a GitHub token with 'repo' scope
 
       # Get the latest release information
-      $latestRelease = Invoke-RestMethod -Uri "https://api.github.com/repos/$githubRepoOwner/$githubRepoName/releases/latest" -Headers @{Authorization = "token $githubToken"}
+      $latestRelease = Invoke-RestMethod -Uri "https://github.com/Marimuthukumaran/SampleJarREPO/archive/refs/tags/101.zip" -Headers @{Authorization = "token $githubToken"}
 
       # Check if the release information is retrieved successfully
       if ($latestRelease -eq $null) {
