@@ -25,7 +25,7 @@ jobs:
         userRepository: 'Marimuthukumaran/SampleJarREPO'
         defaultVersionType: 'latest'
         downloadPath: '$(System.ArtifactsDirectory)'
-        assetName: '*.zip'
+        assetName: 'test7'
 
     # - task: DownloadGitHubRelease@0
     #   inputs:
