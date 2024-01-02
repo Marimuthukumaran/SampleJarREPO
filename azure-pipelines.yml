@@ -26,12 +26,6 @@ jobs:
         defaultVersionType: 'specificTag'
         version: '107'
         downloadPath: '$(System.ArtifactsDirectory)'
-    - task: DownloadGitHubRelease@0
-      inputs:
-        connection: 'newGitServiceConnection'
-        userRepository: 'Marimuthukumaran/SampleJarREPO'
-        defaultVersionType: 'latest'
-        downloadPath: '$(System.ArtifactsDirectory)'
     # - task: DownloadGitHubRelease@0
     #   inputs:
     #     connection: 'newGitServiceConnection'
