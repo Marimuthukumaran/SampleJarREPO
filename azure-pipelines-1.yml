@@ -59,4 +59,17 @@ steps:
       mavenAuthenticateFeed: false
       effectivePomSkip: false
       sonarQubeRunAnalysis: false
-      goals: 'clean deploy'
+      goals: 'install'
+  
+  - task: Maven@4
+    inputs:
+      mavenPomFile: '$(System.DefaultWorkingDirectory)/extracted_files/SampleJarREPO-103/pom.xml'
+      publishJUnitResults: false
+      testResultsFiles: '**/surefire-reports/TEST-*.xml'
+      javaHomeOption: 'JDKVersion'
+      jdkVersionOption: '1.17'
+      mavenVersionOption: 'Default'
+      mavenAuthenticateFeed: false
+      effectivePomSkip: false
+      sonarQubeRunAnalysis: false
+      goals: 'deploy'
