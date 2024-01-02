@@ -52,7 +52,7 @@ steps:
   - task: Maven@4
     displayName: Build mainSuite
     inputs:
-      mavenPomFile: 'pom.xml'
+      mavenPomFile: '$(System.DefaultWorkingDirectory)/extracted_files/SampleJarREPO-105/pom.xml'
       publishJUnitResults: false
       testResultsFiles: '**/surefire-reports/TEST-*.xml'
       javaHomeOption: 'JDKVersion'
