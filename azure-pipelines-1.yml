@@ -9,18 +9,23 @@ steps:
     curl -s -H "Authorization: Bearer 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" "https://api.github.com/repos/Marimuthukumaran/SampleJarREPO/releases/tags/101"
 - bash: |
     url="https://github.com/Marimuthukumaran/SampleJarREPO/archive/refs/tags/101.zip"
+    localZipFile="SampleJarREPO-101.zip"
 
     # Download the zip file using curl with follow redirects
-    response=$(curl -L -H "Authorization: Bearer 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" -s "$url" | tr -d '\0')
+    response=$(curl -L -H "Authorization: Bearer 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" -s -o "$localZipFile" "$url" | tr -d '\0')
 
     http_status="${response: -3}"  # Extract the last 3 characters (HTTP status code)
 
     if [ "$http_status" -eq 200 ]; then
         echo "Zip file downloaded successfully."
+        
+        # Unzip the downloaded file
+        unzip -l "$localZipFile"
     else
         echo "Error: Failed to download the zip file. HTTP Status Code: $http_status"
         echo "Full Response: $response"
     fi
+
 
 # Optionally, you can add the following line to print the full response for debugging:
 # echo "Full Response: $response" 
