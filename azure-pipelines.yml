@@ -23,8 +23,15 @@ jobs:
       inputs:
         connection: 'newGitServiceConnection'
         userRepository: 'Marimuthukumaran/SampleJarREPO'
-        defaultVersionType: 'latest'
+        defaultVersionType: 'specificTag'
+        version: '135515844'
         downloadPath: '$(System.ArtifactsDirectory)'
+    # - task: DownloadGitHubRelease@0
+    #   inputs:
+    #     connection: 'newGitServiceConnection'
+    #     userRepository: 'Marimuthukumaran/SampleJarREPO'
+    #     defaultVersionType: 'latest'
+    #     downloadPath: '$(System.ArtifactsDirectory)'
     - task: ExtractFiles@1
       inputs:
         archiveFilePatterns: '$(System.ArtifactsDirectory)/*.zip'
