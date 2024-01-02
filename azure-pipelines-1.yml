@@ -12,17 +12,23 @@ steps:
     localZipFile="SampleJarREPO-101.zip"
 
     # Download the zip file using curl with follow redirects
-    response=$(curl -L -H "Authorization: Bearer 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" -s -o "$localZipFile" "$url" | tr -d '\0')
+    response=$(curl -w "%{http_code}" -L -H "Authorization: Bearer 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" -s -o "$localZipFile" "$url" | tr -d '\0')
 
     http_status="${response: -3}"  # Extract the last 3 characters (HTTP status code)
 
-    if [ "$http_status" -eq 200 ]; then
-        echo "Zip file downloaded successfully."
-        
-        # Unzip the downloaded file
-        unzip -l "$localZipFile"
+    # Check if http_status is a valid integer
+    if [[ "$http_status" =~ ^[0-9]+$ ]]; then
+        if [ "$http_status" -eq 200 ]; then
+            echo "Zip file downloaded successfully."
+
+            # Unzip the downloaded file
+            unzip -l "$localZipFile"
+        else
+            echo "Error: Failed to download the zip file. HTTP Status Code: $http_status"
+            echo "Full Response: $response"
+        fi
     else
-        echo "Error: Failed to download the zip file. HTTP Status Code: $http_status"
+        echo "Error: Unable to extract valid HTTP status code from the response."
         echo "Full Response: $response"
     fi
 
