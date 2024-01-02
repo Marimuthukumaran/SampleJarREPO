@@ -13,7 +13,7 @@ steps:
         githubToken="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"
         repoOwner="Marimuthukumaran"
         repoName="SampleJarREPO"
-        releaseId="103"
+        releaseId="104"
         url="https://github.com/$repoOwner/$repoName/archive/refs/tags/$releaseId.zip"
             localZipFile="SampleJarREPO-$releaseId.zip"
             extractDir="extracted_files"
@@ -37,7 +37,7 @@ steps:
                     # List all contents recursively
                     echo "Contents of $extractDir:"
                     find "$extractDir"
-                    cd extracted_files/SampleJarREPO-103
+                    cd extracted_files/SampleJarREPO-104
                     ls
                 else
                     echo "Error: Failed to download the zip file. HTTP Status Code: $http_status"
@@ -50,7 +50,7 @@ steps:
   
   - task: Maven@4
     inputs:
-      mavenPomFile: '$(System.DefaultWorkingDirectory)/extracted_files/SampleJarREPO-103/pom.xml'
+      mavenPomFile: '$(System.DefaultWorkingDirectory)/extracted_files/SampleJarREPO-104/pom.xml'
       publishJUnitResults: false
       testResultsFiles: '**/surefire-reports/TEST-*.xml'
       javaHomeOption: 'JDKVersion'
@@ -63,7 +63,7 @@ steps:
   
   - task: Maven@4
     inputs:
-      mavenPomFile: '$(System.DefaultWorkingDirectory)/extracted_files/SampleJarREPO-103/pom.xml'
+      mavenPomFile: '$(System.DefaultWorkingDirectory)/extracted_files/SampleJarREPO-104/pom.xml'
       publishJUnitResults: false
       testResultsFiles: '**/surefire-reports/TEST-*.xml'
       javaHomeOption: 'JDKVersion'
