@@ -10,6 +10,7 @@ steps:
 - bash: |
     url="https://github.com/Marimuthukumaran/SampleJarREPO/archive/refs/tags/101.zip"
     localZipFile="SampleJarREPO-101.zip"
+    extractDir="extracted_files"
 
     # Download the zip file using curl with follow redirects
     response=$(curl -w "%{http_code}" -L -H "Authorization: Bearer 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" -s -o "$localZipFile" "$url" | tr -d '\0')
@@ -21,8 +22,16 @@ steps:
         if [ "$http_status" -eq 200 ]; then
             echo "Zip file downloaded successfully."
 
-            # Unzip the downloaded file
-            unzip -l "$localZipFile"
+            # Create a new directory for extraction
+            mkdir -p "$extractDir"
+
+            # Unzip the downloaded file into the new directory
+            unzip -q "$localZipFile" -d "$extractDir"
+
+            # List the contents of the extracted directory
+            echo "Contents of $extractDir:"
+            ls -l "$extractDir"
+            pwd
         else
             echo "Error: Failed to download the zip file. HTTP Status Code: $http_status"
             echo "Full Response: $response"
@@ -31,6 +40,7 @@ steps:
         echo "Error: Unable to extract valid HTTP status code from the response."
         echo "Full Response: $response"
     fi
+
 
 
 # Optionally, you can add the following line to print the full response for debugging:
