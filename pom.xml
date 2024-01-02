@@ -45,8 +45,8 @@
     </build>
     <repositories>
 		<repository>
-		  <id>feed1</id>
-		  <url>https://pkgs.dev.azure.com/yesmmkumaran/_packaging/feed1/maven/v1</url>
+		  <id>releases_test</id>
+		  <url>https://pkgs.dev.azure.com/yesmmkumaran/Test_Releases_Jar_Dufry/_packaging/releases_test/maven/v1</url>
 		  <releases>
 		    <enabled>true</enabled>
 		  </releases>
@@ -56,9 +56,9 @@
 		</repository>
        </repositories>
        <distributionManagement>
-                <repository>
-		  <id>feed1</id>
-		  <url>https://pkgs.dev.azure.com/yesmmkumaran/_packaging/feed1/maven/v1</url>
+               <repository>
+		  <id>releases_test</id>
+		  <url>https://pkgs.dev.azure.com/yesmmkumaran/Test_Releases_Jar_Dufry/_packaging/releases_test/maven/v1</url>
 		  <releases>
 		    <enabled>true</enabled>
 		  </releases>
