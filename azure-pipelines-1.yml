@@ -33,7 +33,8 @@ steps:
             find "$extractDir"
             pwd
             echo "Source Directory: $(System.DefaultWorkingDirectory)"
-            cd extracted_files
+            ls
+            cd extracted_files/SampleJarREPO-101
             ls
         else
             echo "Error: Failed to download the zip file. HTTP Status Code: $http_status"
