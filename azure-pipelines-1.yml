@@ -59,4 +59,4 @@ steps:
       mavenAuthenticateFeed: false
       effectivePomSkip: false
       sonarQubeRunAnalysis: false
-      goals: 'deploy'
+      goals: 'clean deploy'
