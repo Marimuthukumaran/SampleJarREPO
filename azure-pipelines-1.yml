@@ -47,3 +47,16 @@ steps:
                 echo "Error: Unable to extract valid HTTP status code from the response."
                 echo "Full Response: $response"
             fi
+  
+  - task: Maven@4
+    inputs:
+      mavenPomFile: '$(System.DefaultWorkingDirectory)/extracted_files/SampleJarREPO-101/pom.xml'
+      publishJUnitResults: false
+      testResultsFiles: '**/surefire-reports/TEST-*.xml'
+      javaHomeOption: 'JDKVersion'
+      jdkVersionOption: '1.17'
+      mavenVersionOption: 'Default'
+      mavenAuthenticateFeed: false
+      effectivePomSkip: false
+      sonarQubeRunAnalysis: false
+      goals: 'deploy'
