@@ -30,8 +30,8 @@ jobs:
       inputs:
         targetType: 'inline'
         script: |
-          echo'downloaddirectory $(Build.ArtifactStagingDirectory)'
           pwd
+          cd /home/vsts/work/1/a
           ls
     # - task: DownloadGitHubRelease@0
     #   inputs:
