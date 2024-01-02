@@ -32,7 +32,8 @@ steps:
             echo "Contents of $extractDir:"
             find "$extractDir"
             pwd
-            echo 'Source Directory: $(BUILD_SOURCESDIRECTORY)'
+            echo "Source Directory: $(System.DefaultWorkingDirectory)"
+            cd extracted_files
             ls
         else
             echo "Error: Failed to download the zip file. HTTP Status Code: $http_status"
