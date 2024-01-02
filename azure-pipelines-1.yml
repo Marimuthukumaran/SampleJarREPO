@@ -13,7 +13,7 @@ steps:
         githubToken="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"
         repoOwner="Marimuthukumaran"
         repoName="SampleJarREPO"
-        releaseId="104"
+        releaseId="105"
         url="https://github.com/$repoOwner/$repoName/archive/refs/tags/$releaseId.zip"
             localZipFile="SampleJarREPO-$releaseId.zip"
             extractDir="extracted_files"
@@ -37,7 +37,8 @@ steps:
                     # List all contents recursively
                     echo "Contents of $extractDir:"
                     find "$extractDir"
-                    cd extracted_files/SampleJarREPO-104
+                    ls
+                    cd extracted_files/SampleJarREPO-105
                     ls
                 else
                     echo "Error: Failed to download the zip file. HTTP Status Code: $http_status"
@@ -47,19 +48,6 @@ steps:
                 echo "Error: Unable to extract valid HTTP status code from the response."
                 echo "Full Response: $response"
             fi
-  
-  - task: Maven@4
-    inputs:
-      mavenPomFile: '$(System.DefaultWorkingDirectory)/extracted_files/SampleJarREPO-104/pom.xml'
-      publishJUnitResults: false
-      testResultsFiles: '**/surefire-reports/TEST-*.xml'
-      javaHomeOption: 'JDKVersion'
-      jdkVersionOption: '1.17'
-      mavenVersionOption: 'Default'
-      mavenAuthenticateFeed: false
-      effectivePomSkip: false
-      sonarQubeRunAnalysis: false
-      goals: 'install'
   
   - task: Maven@4
     inputs:
