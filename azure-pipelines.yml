@@ -25,8 +25,6 @@ jobs:
         userRepository: 'Marimuthukumaran/SampleJarREPO'
         defaultVersionType: 'latest'
         downloadPath: '$(System.ArtifactsDirectory)'
-        assetName: '107'
-
     # - task: DownloadGitHubRelease@0
     #   inputs:
     #     connection: 'newGitServiceConnection'
