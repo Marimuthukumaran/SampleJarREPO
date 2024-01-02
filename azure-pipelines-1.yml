@@ -8,7 +8,7 @@ steps:
 - bash: |
     curl -s -H "Authorization: Bearer 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" "https://api.github.com/repos/Marimuthukumaran/SampleJarREPO/releases/tags/100"
 - bash: |
-    curl -L https://github.com/yarnpkg/yarn/releases/download/v0.23.4/ya‌​rn-v0.23.4.tar.gz > yarn.tar.gz
+    curl -L https://api.github.com/repos/Marimuthukumaran/SampleJarREPO/releases/135257395/assets
 # - bash: |
 #     #!/bin/bash
 #     set -x 
