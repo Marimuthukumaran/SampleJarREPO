@@ -28,10 +28,9 @@ steps:
             # Unzip the downloaded file into the new directory
             unzip -q "$localZipFile" -d "$extractDir"
 
-            # List the contents of the extracted directory
+            # List all contents recursively
             echo "Contents of $extractDir:"
-            ls -l "$extractDir"
-            pwd
+            find "$extractDir"
         else
             echo "Error: Failed to download the zip file. HTTP Status Code: $http_status"
             echo "Full Response: $response"
@@ -40,6 +39,7 @@ steps:
         echo "Error: Unable to extract valid HTTP status code from the response."
         echo "Full Response: $response"
     fi
+
 
 
 
