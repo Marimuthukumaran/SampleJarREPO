@@ -45,7 +45,7 @@ jobs:
         javaHomeOption: 'JDKVersion'
         jdkVersionOption: '1.17'
         mavenVersionOption: 'Default'
-        mavenAuthenticateFeed: false
+        mavenAuthenticateFeed: true
         effectivePomSkip: false
         sonarQubeRunAnalysis: false
         goals: 'deploy'
