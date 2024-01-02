@@ -9,6 +9,8 @@ steps:
     curl -s -H "Authorization: Bearer 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" "https://api.github.com/repos/Marimuthukumaran/SampleJarREPO/releases/tags/101"
 - bash: |
     curl -H "Authorization: Bearer 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" -s "https://github.com/Marimuthukumaran/SampleJarREPO/archive/refs/tags/101.zip" | jq '.'
+    ls
+    pwd
 # - bash: |
 #     #!/bin/bash
 #     set -x 
