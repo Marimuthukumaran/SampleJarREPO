@@ -8,7 +8,10 @@ steps:
 - bash: |
     curl -s -H "Authorization: Bearer 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" "https://api.github.com/repos/Marimuthukumaran/SampleJarREPO/releases/tags/101"
 - bash: |
-    response=$(curl -w "%{http_code}" -H "Authorization: Bearer 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" -s "https://github.com/Marimuthukumaran/SampleJarREPO/archive/refs/tags/101.zip")
+    url="https://github.com/Marimuthukumaran/SampleJarREPO/archive/refs/tags/101.zip"
+
+    # Download the zip file using curl with follow redirects
+    response=$(curl -w "%{http_code}" -L -H "Authorization: Bearer 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" -s "$url")
 
     http_status="${response: -3}"  # Extract the last 3 characters (HTTP status code)
 
@@ -17,6 +20,7 @@ steps:
     else
         echo "Error: Failed to download the zip file. HTTP Status Code: $http_status"
     fi
+
 
 # Optionally, you can add the following line to print the full response for debugging:
 # echo "Full Response: $response" 
