@@ -7,41 +7,42 @@ pool:
 steps:
 - bash: |
     curl -s -H "Authorization: Bearer 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" "https://api.github.com/repos/Marimuthukumaran/SampleJarREPO/releases/tags/100"
-
 - bash: |
-    #!/bin/bash
+    curl -L https://github.com/yarnpkg/yarn/releases/download/v0.23.4/ya‌​rn-v0.23.4.tar.gz > yarn.tar.gz
+# - bash: |
+#     #!/bin/bash
+#     set -x 
+#     # Replace these values with your GitHub repository details and release tag
+#     repoOwner="Marimuthukumaran"
+#     repoName="SampleJarREPO"
+#     releaseTag="100"
 
-    # Replace these values with your GitHub repository details and release tag
-    repoOwner="Marimuthukumaran"
-    repoName="SampleJarREPO"
-    releaseTag="100"
+#     # GitHub API endpoint for the release
+#     url="https://api.github.com/repos/$repoOwner/$repoName/releases/tags/$releaseTag"
 
-    # GitHub API endpoint for the release
-    url="https://api.github.com/repos/$repoOwner/$repoName/releases/tags/$releaseTag"
+#     # Get the download URL for the zipball from the GitHub API
+#     zipballUrl=$(curl -s "$url" | jq -r '.zipball_url')
 
-    # Get the download URL for the zipball from the GitHub API
-    zipballUrl=$(curl -s "$url" | jq -r '.zipball_url')
+#     # Check if the zipball URL is valid
+#     if [ "$zipballUrl" == "null" ] || [ -z "$zipballUrl" ]; then
+#         echo "Error: Unable to retrieve valid zipball URL. Check GitHub API response:"
+#         curl -s "$url" | jq '.'
+#         exit 1
+#     fi
 
-    # Check if the zipball URL is valid
-    if [ "$zipballUrl" == "null" ] || [ -z "$zipballUrl" ]; then
-        echo "Error: Unable to retrieve valid zipball URL. Check GitHub API response:"
-        curl -s "$url" | jq '.'
-        exit 1
-    fi
+#     # Specify the local filename for the downloaded zip file
+#     localZipFile="release_$releaseTag.zip"
 
-    # Specify the local filename for the downloaded zip file
-    localZipFile="release_$releaseTag.zip"
+#     # Download the zipball using curl
+#     curl -L -o "$localZipFile" "$zipballUrl"
 
-    # Download the zipball using curl
-    curl -L -o "$localZipFile" "$zipballUrl"
+#     # Check if the download was successful
+#     if [ $? -eq 0 ]; then
+#         echo "Release zip file downloaded: $localZipFile"
+#     else
+#         echo "Error: Failed to download the release zip file."
+#         exit 1
+#     fi
 
-    # Check if the download was successful
-    if [ $? -eq 0 ]; then
-        echo "Release zip file downloaded: $localZipFile"
-    else
-        echo "Error: Failed to download the release zip file."
-        exit 1
-    fi
-
-  displayName: 'List GitHub Release Assets'
+#   displayName: 'List GitHub Release Assets'
 
