@@ -31,6 +31,7 @@ steps:
             # List all contents recursively
             echo "Contents of $extractDir:"
             find "$extractDir"
+            pwd
         else
             echo "Error: Failed to download the zip file. HTTP Status Code: $http_status"
             echo "Full Response: $response"
