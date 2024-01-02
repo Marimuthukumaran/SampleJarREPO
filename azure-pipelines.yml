@@ -34,7 +34,7 @@ jobs:
     #     downloadPath: '$(System.ArtifactsDirectory)'
     - task: ExtractFiles@1
       inputs:
-        archiveFilePatterns: '$(System.ArtifactsDirectory)/*.zip'
+        archiveFilePatterns: '$(System.ArtifactsDirectory)/**.zip'
         destinationFolder: '$(System.ArtifactsDirectory)'
         cleanDestinationFolder: true
         overwriteExistingFiles: false
