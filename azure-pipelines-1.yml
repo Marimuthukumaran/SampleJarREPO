@@ -5,86 +5,45 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- bash: |
-    curl -s -H "Authorization: Bearer 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" "https://api.github.com/repos/Marimuthukumaran/SampleJarREPO/releases/tags/101"
-- bash: |
-    url="https://github.com/Marimuthukumaran/SampleJarREPO/archive/refs/tags/101.zip"
-    localZipFile="SampleJarREPO-101.zip"
-    extractDir="extracted_files"
-
-    # Download the zip file using curl with follow redirects
-    response=$(curl -w "%{http_code}" -L -H "Authorization: Bearer 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" -s -o "$localZipFile" "$url" | tr -d '\0')
-
-    http_status="${response: -3}"  # Extract the last 3 characters (HTTP status code)
-
-    # Check if http_status is a valid integer
-    if [[ "$http_status" =~ ^[0-9]+$ ]]; then
-        if [ "$http_status" -eq 200 ]; then
-            echo "Zip file downloaded successfully."
-
-            # Create a new directory for extraction
-            mkdir -p "$extractDir"
-
-            # Unzip the downloaded file into the new directory
-            unzip -q "$localZipFile" -d "$extractDir"
-
-            # List all contents recursively
-            echo "Contents of $extractDir:"
-            find "$extractDir"
-            pwd
-            echo "Source Directory: $(System.DefaultWorkingDirectory)"
-            ls
-            cd extracted_files/SampleJarREPO-101
-            ls
-        else
-            echo "Error: Failed to download the zip file. HTTP Status Code: $http_status"
-            echo "Full Response: $response"
-        fi
-    else
-        echo "Error: Unable to extract valid HTTP status code from the response."
-        echo "Full Response: $response"
-    fi
-
-
-
-
-# Optionally, you can add the following line to print the full response for debugging:
-# echo "Full Response: $response" 
-
-# - bash: |
-#     #!/bin/bash
-#     set -x 
-#     # Replace these values with your GitHub repository details and release tag
-#     repoOwner="Marimuthukumaran"
-#     repoName="SampleJarREPO"
-#     releaseTag="100"
-
-#     # GitHub API endpoint for the release
-#     url="https://api.github.com/repos/$repoOwner/$repoName/releases/tags/$releaseTag"
-
-#     # Get the download URL for the zipball from the GitHub API
-#     zipballUrl=$(curl -s "$url" | jq -r '.zipball_url')
-
-#     # Check if the zipball URL is valid
-#     if [ "$zipballUrl" == "null" ] || [ -z "$zipballUrl" ]; then
-#         echo "Error: Unable to retrieve valid zipball URL. Check GitHub API response:"
-#         curl -s "$url" | jq '.'
-#         exit 1
-#     fi
-
-#     # Specify the local filename for the downloaded zip file
-#     localZipFile="release_$releaseTag.zip"
-
-#     # Download the zipball using curl
-#     curl -L -o "$localZipFile" "$zipballUrl"
-
-#     # Check if the download was successful
-#     if [ $? -eq 0 ]; then
-#         echo "Release zip file downloaded: $localZipFile"
-#     else
-#         echo "Error: Failed to download the release zip file."
-#         exit 1
-#     fi
-
-#   displayName: 'List GitHub Release Assets'
-
+  - task: Bash@3
+    displayName: Dowload and unzip the release file
+    inputs:
+      targetType: 'inline'
+      script: |
+        githubToken="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"
+        repoOwner="Marimuthukumaran"
+        repoName="SampleJarREPO"
+        releaseId="101"
+        url="https://github.com/$repoOwner/$repoName/archive/refs/tags/$releaseId.zip"
+            localZipFile="SampleJarREPO-$releaseId.zip"
+            extractDir="extracted_files"
+        
+            # Download the zip file using curl with follow redirects
+            response=$(curl -w "%{http_code}" -L -H "Authorization: Bearer $githubToken" -s -o "$localZipFile" "$url" | tr -d '\0')
+        
+            http_status="${response: -3}"  # Extract the last 3 characters (HTTP status code)
+        
+            # Check if http_status is a valid integer
+            if [[ "$http_status" =~ ^[0-9]+$ ]]; then
+                if [ "$http_status" -eq 200 ]; then
+                    echo "Zip file downloaded successfully."
+        
+                    # Create a new directory for extraction
+                    mkdir -p "$extractDir"
+        
+                    # Unzip the downloaded file into the new directory
+                    unzip -q "$localZipFile" -d "$extractDir"
+        
+                    # List all contents recursively
+                    echo "Contents of $extractDir:"
+                    find "$extractDir"
+                    cd extracted_files/SampleJarREPO-101
+                    ls
+                else
+                    echo "Error: Failed to download the zip file. HTTP Status Code: $http_status"
+                    echo "Full Response: $response"
+                fi
+            else
+                echo "Error: Unable to extract valid HTTP status code from the response."
+                echo "Full Response: $response"
+            fi
