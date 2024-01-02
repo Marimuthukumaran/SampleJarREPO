@@ -30,8 +30,9 @@ jobs:
       inputs:
         targetType: 'inline'
         script: |
-          cd /home/vsts/work/1/a
           echo "Contents of $(Build.ArtifactStagingDirectory)"
+          cd /home/vsts/work/1/a
+          ls
     # - task: DownloadGitHubRelease@0
     #   inputs:
     #     connection: 'newGitServiceConnection'
