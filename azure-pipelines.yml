@@ -30,7 +30,6 @@ jobs:
       inputs:
         targetType: 'inline'
         script: |
-          pwd
           cd /home/vsts/work/1/a
           ls
     # - task: DownloadGitHubRelease@0
