@@ -23,8 +23,7 @@ jobs:
       inputs:
         connection: 'newGitServiceConnection'
         userRepository: 'Marimuthukumaran/SampleJarREPO'
-        defaultVersionType: 'specificTag'
-        version: '135515844'
+        defaultVersionType: 'latest'
         downloadPath: '$(System.ArtifactsDirectory)'
     # - task: DownloadGitHubRelease@0
     #   inputs:
