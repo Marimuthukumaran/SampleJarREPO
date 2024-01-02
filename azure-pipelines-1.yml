@@ -13,7 +13,7 @@ steps:
         githubToken="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"
         repoOwner="Marimuthukumaran"
         repoName="SampleJarREPO"
-        releaseId="105"
+        releaseId="107"
         url="https://github.com/$repoOwner/$repoName/archive/refs/tags/$releaseId.zip"
             localZipFile="SampleJarREPO-$releaseId.zip"
             extractDir="extracted_files"
@@ -38,7 +38,7 @@ steps:
                     echo "Contents of $extractDir:"
                     find "$extractDir"
                     ls
-                    cd extracted_files/SampleJarREPO-105
+                    cd extracted_files/SampleJarREPO-107
                     ls
                 else
                     echo "Error: Failed to download the zip file. HTTP Status Code: $http_status"
@@ -52,7 +52,7 @@ steps:
   - task: Maven@4
     displayName: Build mainSuite
     inputs:
-      mavenPomFile: '$(System.DefaultWorkingDirectory)/extracted_files/SampleJarREPO-105/pom.xml'
+      mavenPomFile: '$(System.DefaultWorkingDirectory)/extracted_files/SampleJarREPO-107/pom.xml'
       publishJUnitResults: false
       testResultsFiles: '**/surefire-reports/TEST-*.xml'
       javaHomeOption: 'JDKVersion'
