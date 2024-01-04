@@ -15,7 +15,6 @@ pool:
 steps:
   - task: Bash@3
     displayName: Dowload and unzip the release file
-    condition: ne(variables['releaseId'], '')  # Execute only if releaseId is not empty
     inputs:
       targetType: 'inline'
       script: |
