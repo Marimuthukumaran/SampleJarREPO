@@ -19,7 +19,7 @@ steps:
           repoOwner="Marimuthukumaran"
           repoName="SampleJarREPO"
           url="https://github.com/$repoOwner/$repoName/archive/refs/tags/${{ parameters.releaseId }}.zip"
-                  localZipFile="SampleJarREPO-${{ parameters.releaseId }}.zip"
+                  localZipFile="${{ parameters.releaseId }}.zip"
                   extractDir="extracted_files"       
                   # Download the zip file using curl with follow redirects
                   response=$(curl -w "%{http_code}" -L -H "Authorization: Bearer $githubToken" -s -o "$localZipFile" "$url" | tr -d '\0')       
@@ -46,7 +46,7 @@ steps:
   - task: Maven@4
     displayName: Maven deploy jar to Feeds
     inputs:
-      mavenPomFile: '$(System.DefaultWorkingDirectory)/extracted_files/SampleJarREPO-${{ parameters.releaseId }}/pom.xml'
+      mavenPomFile: '$(System.DefaultWorkingDirectory)/extracted_files/$repoName-${{ parameters.releaseId }}/pom.xml'
       publishJUnitResults: false
       testResultsFiles: '**/surefire-reports/TEST-*.xml'
       javaHomeOption: 'JDKVersion'
