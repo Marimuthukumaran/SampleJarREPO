@@ -1,8 +1,8 @@
 trigger: none
 pr: none
 
-# variables:
-# - group: download_releases
+variables:
+- group: download_releases
 
 parameters:
 - name: releaseId
@@ -18,9 +18,9 @@ steps:
     inputs:
       targetType: 'inline'
       script: |
-          githubToken="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"
-          repoOwner="Marimuthukumaran"
-          repoName="SampleJarREPO"
+          # githubToken="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"
+          # repoOwner="Marimuthukumaran"
+          # repoName="SampleJarREPO"
           url="https://github.com/$repoOwner/$repoName/archive/refs/tags/${{ parameters.releaseId }}.zip"
                   localZipFile="SampleJarREPO-${{ parameters.releaseId }}.zip"
                   extractDir="extracted_files"       
