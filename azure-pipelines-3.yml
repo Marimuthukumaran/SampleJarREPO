@@ -1,0 +1,51 @@
+parameters:
+- name: releaseId
+  type: number
+  default:  # No default value specified, effectively set to null
+
+trigger: none
+pr: none
+
+# variables:
+# - group: download_releases
+
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+  - task: Bash@3
+    displayName: Dowload and unzip the release file
+    inputs:
+      targetType: 'inline'
+      script: |
+        githubToken="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"
+        repoOwner="Marimuthukumaran"
+        repoName="SampleJarREPO"
+        if [ -z "$releaseId" ]; then
+              echo "Release ID not provided. Set to default or provide a specific value."
+              releaseId="107"  # default value here
+            fi
+            url="https://github.com/$repoOwner/$repoName/archive/refs/tags/$releaseId.zip"
+                localZipFile="SampleJarREPO-$releaseId.zip"
+                extractDir="extracted_files"
+                # Download the zip file using curl with follow redirects
+                curl -L -H "Authorization: Bearer $githubToken" -s -o "$localZipFile" "$url"
+                echo "Zip file downloaded successfully."
+                # Create a new directory for extraction
+                mkdir -p "$extractDir"
+                # Unzip the downloaded file into the new directory
+                unzip -q "$localZipFile" -d "$extractDir"
+  - task: Maven@4
+    displayName: 'Maven deploy jar to Feeds'
+    inputs:
+      mavenPomFile: '$(System.DefaultWorkingDirectory)/extracted_files/SampleJarREPO-107/pom.xml'
+      publishJUnitResults: false
+      testResultsFiles: '**/surefire-reports/TEST-*.xml'
+      javaHomeOption: 'JDKVersion'
+      jdkVersionOption: '1.17'
+      mavenVersionOption: 'Default'
+      mavenAuthenticateFeed: true
+      effectivePomSkip: false
+      sonarQubeRunAnalysis: false
+      goals: 'deploy'
