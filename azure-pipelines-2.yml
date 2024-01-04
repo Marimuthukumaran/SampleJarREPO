@@ -1,8 +1,9 @@
 trigger: none
 pr: none
 
-variables:
-- group: download_releases
+# variables:
+# - group: download_releases
+
 
 pool:
   vmImage: 'ubuntu-latest'
@@ -13,6 +14,10 @@ steps:
     inputs:
       targetType: 'inline'
       script: |
+        githubToken="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"
+        repoOwner="Marimuthukumaran"
+        repoName="SampleJarREPO"
+        releaseId="107"
         url="https://github.com/$repoOwner/$repoName/archive/refs/tags/$releaseId.zip"
             localZipFile="SampleJarREPO-$releaseId.zip"
             extractDir="extracted_files"
