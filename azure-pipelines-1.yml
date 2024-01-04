@@ -16,30 +16,21 @@ steps:
         releaseId="107"
         url="https://github.com/$repoOwner/$repoName/archive/refs/tags/$releaseId.zip"
             localZipFile="SampleJarREPO-$releaseId.zip"
-            extractDir="extracted_files"
-        
+            extractDir="extracted_files"       
             # Download the zip file using curl with follow redirects
-            response=$(curl -w "%{http_code}" -L -H "Authorization: Bearer $githubToken" -s -o "$localZipFile" "$url" | tr -d '\0')
-        
-            http_status="${response: -3}"  # Extract the last 3 characters (HTTP status code)
-        
+            response=$(curl -w "%{http_code}" -L -H "Authorization: Bearer $githubToken" -s -o "$localZipFile" "$url" | tr -d '\0')       
+            http_status="${response: -3}"  # Extract the last 3 characters (HTTP status code)      
             # Check if http_status is a valid integer
             if [[ "$http_status" =~ ^[0-9]+$ ]]; then
                 if [ "$http_status" -eq 200 ]; then
-                    echo "Zip file downloaded successfully."
-        
+                    echo "Zip file downloaded successfully."     
                     # Create a new directory for extraction
-                    mkdir -p "$extractDir"
-        
+                   mkdir -p "$extractDir"   
                     # Unzip the downloaded file into the new directory
                     unzip -q "$localZipFile" -d "$extractDir"
-        
                     # List all contents recursively
                     echo "Contents of $extractDir:"
                     find "$extractDir"
-                    ls
-                    cd extracted_files/SampleJarREPO-107
-                    ls
                 else
                     echo "Error: Failed to download the zip file. HTTP Status Code: $http_status"
                     echo "Full Response: $response"
@@ -48,9 +39,8 @@ steps:
                 echo "Error: Unable to extract valid HTTP status code from the response."
                 echo "Full Response: $response"
             fi
-  
   - task: Maven@4
-    displayName: Build mainSuite
+    displayName: Maven deploy jar to Feeds
     inputs:
       mavenPomFile: '$(System.DefaultWorkingDirectory)/extracted_files/SampleJarREPO-107/pom.xml'
       publishJUnitResults: false
