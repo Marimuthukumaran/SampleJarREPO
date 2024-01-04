@@ -13,8 +13,8 @@ steps:
     inputs:
       targetType: 'inline'
       script: |
-        url="https://github.com/$download_releases.repoOwner/$download_releases.repoName/archive/refs/tags/$(download_releases.releaseId).zip"
-            localZipFile="SampleJarREPO-$(download_releases.releaseId).zip"
+        url="https://github.com/$repoOwner/$repoName/archive/refs/tags/$releaseId.zip"
+            localZipFile="SampleJarREPO-$.releaseId.zip"
             extractDir="extracted_files"
             # Download the zip file using curl with follow redirects
             curl -L -H "Authorization: Bearer $githubToken" -s -o "$localZipFile" "$url"
