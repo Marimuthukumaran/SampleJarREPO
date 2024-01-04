@@ -23,37 +23,23 @@ jobs:
       inputs:
         connection: 'newGitServiceConnection'
         userRepository: 'Marimuthukumaran/SampleJarREPO'
-        defaultVersionType: 'specificVersion'
-        version: '135515844'
+        defaultVersionType: 'latest'
         downloadPath: '$(System.ArtifactsDirectory)'
-    - task: Bash@3
+    - task: ExtractFiles@1
       inputs:
-        targetType: 'inline'
-        script: |
-          echo "Contents of $(Build.ArtifactStagingDirectory)"
-          cd /home/vsts/work/1/a
-          ls
-    # - task: DownloadGitHubRelease@0
-    #   inputs:
-    #     connection: 'newGitServiceConnection'
-    #     userRepository: 'Marimuthukumaran/SampleJarREPO'
-    #     defaultVersionType: 'latest'
-    #     downloadPath: '$(System.ArtifactsDirectory)'
-    # - task: ExtractFiles@1
-    #   inputs:
-    #     archiveFilePatterns: '$(System.ArtifactsDirectory)/SampleJarREPO-107.zip'
-    #     destinationFolder: '$(System.ArtifactsDirectory)'
-    #     cleanDestinationFolder: true
-    #     overwriteExistingFiles: false
-    # - task: Maven@4
-    #   inputs:
-    #     mavenPomFile: '$(System.ArtifactsDirectory)/pom.xml'
-    #     publishJUnitResults: false
-    #     testResultsFiles: '**/surefire-reports/TEST-*.xml'
-    #     javaHomeOption: 'JDKVersion'
-    #     jdkVersionOption: '1.17'
-    #     mavenVersionOption: 'Default'
-    #     mavenAuthenticateFeed: true
-    #     effectivePomSkip: false
-    #     sonarQubeRunAnalysis: false
-    #     goals: 'deploy'
+        archiveFilePatterns: '$(System.ArtifactsDirectory)/SampleJarREPO-107.zip'
+        destinationFolder: '$(System.ArtifactsDirectory)'
+        cleanDestinationFolder: true
+        overwriteExistingFiles: false
+    - task: Maven@4
+      inputs:
+        mavenPomFile: '$(System.ArtifactsDirectory)/pom.xml'
+        publishJUnitResults: false
+        testResultsFiles: '**/surefire-reports/TEST-*.xml'
+        javaHomeOption: 'JDKVersion'
+        jdkVersionOption: '1.17'
+        mavenVersionOption: 'Default'
+        mavenAuthenticateFeed: true
+        effectivePomSkip: false
+        sonarQubeRunAnalysis: false
+        goals: 'deploy'
