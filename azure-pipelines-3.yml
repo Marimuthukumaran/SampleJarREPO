@@ -18,7 +18,7 @@ steps:
     inputs:
       targetType: 'inline'
       script: |
-          echo "releaseId is $releaseId"
+          echo "releaseId is $RELEASEID"
   #       githubToken="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"
   #       repoOwner="Marimuthukumaran"
   #       repoName="SampleJarREPO"
