@@ -7,7 +7,7 @@ pr: none
 parameters:
 - name: releaseId
   type: number
-  default: ' ' # default value null
+  default: 107 # default value null
 
 pool:
   vmImage: 'ubuntu-latest'
