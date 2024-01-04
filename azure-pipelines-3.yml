@@ -3,10 +3,11 @@ pr: none
 
 # variables:
 # - group: download_releases
+
 parameters:
 - name: releaseId
   type: number
-  default: 107 # No default value specified, effectively set to null
+  default:  # default value null
 
 pool:
   vmImage: 'ubuntu-latest'
@@ -14,28 +15,40 @@ pool:
 steps:
   - task: Bash@3
     displayName: Dowload and unzip the release file
+    condition: ne(variables['releaseId'], '')  # Execute only if releaseId is not empty
     inputs:
       targetType: 'inline'
       script: |
         githubToken="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"
         repoOwner="Marimuthukumaran"
         repoName="SampleJarREPO"
-        if [ -z "$releaseId" ]; then
-              echo "Release ID not provided. Set to default or provide a specific value."
-              releaseId="107"  # default value here
-            fi
-            url="https://github.com/$repoOwner/$repoName/archive/refs/tags/$releaseId.zip"
+        url="https://github.com/$repoOwner/$repoName/archive/refs/tags/$releaseId.zip"
                 localZipFile="SampleJarREPO-$releaseId.zip"
-                extractDir="extracted_files"
+                extractDir="extracted_files"       
                 # Download the zip file using curl with follow redirects
-                curl -L -H "Authorization: Bearer $githubToken" -s -o "$localZipFile" "$url"
-                echo "Zip file downloaded successfully."
-                # Create a new directory for extraction
-                mkdir -p "$extractDir"
-                # Unzip the downloaded file into the new directory
-                unzip -q "$localZipFile" -d "$extractDir"
+                response=$(curl -w "%{http_code}" -L -H "Authorization: Bearer $githubToken" -s -o "$localZipFile" "$url" | tr -d '\0')       
+                http_status="${response: -3}"  # Extract the last 3 characters (HTTP status code)      
+                # Check if http_status is a valid integer
+                if [[ "$http_status" =~ ^[0-9]+$ ]]; then
+                    if [ "$http_status" -eq 200 ]; then
+                        echo "Zip file downloaded successfully."     
+                        # Create a new directory for extraction
+                      mkdir -p "$extractDir"   
+                        # Unzip the downloaded file into the new directory
+                        unzip -q "$localZipFile" -d "$extractDir"
+                        # List all contents recursively
+                        echo "Contents of $extractDir:"
+                        find "$extractDir"
+                    else
+                        echo "Error: Failed to download the zip file. HTTP Status Code: $http_status"
+                        echo "Full Response: $response"
+                    fi
+                else
+                    echo "Error: Unable to extract valid HTTP status code from the response."
+                    echo "Full Response: $response"
+                fi
   - task: Maven@4
-    displayName: 'Maven deploy jar to Feeds'
+    displayName: Maven deploy jar to Feeds
     inputs:
       mavenPomFile: '$(System.DefaultWorkingDirectory)/extracted_files/SampleJarREPO-107/pom.xml'
       publishJUnitResults: false
@@ -47,3 +60,4 @@ steps:
       effectivePomSkip: false
       sonarQubeRunAnalysis: false
       goals: 'deploy'
+      # options: '-Dmaven.test.failure.ignore=true'
