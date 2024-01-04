@@ -17,25 +17,15 @@ steps:
         url="https://github.com/$repoOwner/$repoName/archive/refs/tags/$releaseId.zip"
             localZipFile="SampleJarREPO-$releaseId.zip"
             extractDir="extracted_files"
-        
             # Download the zip file using curl with follow redirects
             curl -L -H "Authorization: Bearer $githubToken" -s -o "$localZipFile" "$url"
             echo "Zip file downloaded successfully."
-        
             # Create a new directory for extraction
             mkdir -p "$extractDir"
-
             # Unzip the downloaded file into the new directory
             unzip -q "$localZipFile" -d "$extractDir"
-
-            # List all contents recursively
-            echo "Contents of $extractDir:"
-            find "$extractDir"
-            ls
-            cd extracted_files/SampleJarREPO-$releaseId
-            ls
-  
   - task: Maven@4
+    displayName: 'Maven deploy jar to Feeds'
     inputs:
       mavenPomFile: '$(System.DefaultWorkingDirectory)/extracted_files/SampleJarREPO-107/pom.xml'
       publishJUnitResults: false
