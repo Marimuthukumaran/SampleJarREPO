@@ -33,7 +33,7 @@ jobs:
         EC2_HOST: ${{ secrets.EC2_HOST }}
         EC2_USER: ${{ secrets.EC2_USER }}
         EC2_KEY: ${{ secrets.EC2_KEY }}
-        JAR_FILE: target/spring-petclinic-3.1.0-SNAPSHOT.jar # Adjust this path if necessary
+        JAR_FILE: target/*.jar # Adjust this path if necessary
       run: |
         sudo apt-get update
         sudo apt-get install -y openssh-client
