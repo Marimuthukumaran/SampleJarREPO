@@ -41,6 +41,14 @@ jobs:
         chmod 600 private_key.pem
         scp -o StrictHostKeyChecking=no -i private_key.pem $JAR_FILE $EC2_USER@$EC2_HOST:/home/$EC2_USER/
 
+    - name: Verify JAR Transfer
+      env:
+        EC2_HOST: ${{ secrets.EC2_HOST }}
+        EC2_USER: ${{ secrets.EC2_USER }}
+        EC2_KEY: ${{ secrets.EC2_KEY }}
+      run: |
+        ssh -o StrictHostKeyChecking=no -i private_key.pem $EC2_USER@$EC2_HOST "ls /home/$EC2_USER/$(basename $JAR_FILE)"
+
     - name: Execute Commands on EC2
       env:
         EC2_HOST: ${{ secrets.EC2_HOST }}
@@ -48,7 +56,6 @@ jobs:
         EC2_KEY: ${{ secrets.EC2_KEY }}
       run: |
         ssh -o StrictHostKeyChecking=no -i private_key.pem $EC2_USER@$EC2_HOST << 'EOF'
-        # Add your commands to run on the EC2 instance here, for example:
         cd /home/$EC2_USER/
-        java -jar *.jar
+        java -jar $(basename $JAR_FILE)
         EOF
